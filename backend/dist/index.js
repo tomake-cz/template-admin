@@ -1,6 +1,16 @@
+/* eslint-disable import/first */
 // graphql imports
 import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import express from 'express';
+import http from 'http';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+const { json } = bodyParser;
+// node
+import path from 'path';
+import { existsSync } from 'fs';
 // mocks
 import { addMocksToSchema } from '@graphql-tools/mock';
 import { makeExecutableSchema } from '@graphql-tools/schema';
@@ -15,6 +25,8 @@ import { typeDef as Test, resolvers as testRes, } from './schema-resolvers/test.
 // other imports
 import lodash from 'lodash';
 const { merge } = lodash;
+const app = express();
+const httpServer = http.createServer(app);
 const server = new ApolloServer({
     schema: addMocksToSchema({
         schema: makeExecutableSchema({
@@ -23,12 +35,29 @@ const server = new ApolloServer({
         }),
         mocks,
     }),
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
-const { url } = await startStandaloneServer(server, {
+await server.start();
+app.use('/graphql', cors(), json(), expressMiddleware(server, {
     context: async ({ req }) => ({
         token: req.headers.token,
         dataSources: { testAPI: new TestAPI({ prisma }) },
     }),
-    listen: { port: 4000 },
+}));
+const FRONTEND_PATH = '../frontend';
+const DIST_PATH = FRONTEND_PATH + '/dist';
+app.get('/index', (req, res) => {
+    res.redirect('/');
 });
-console.log(`🚀  Server ready at ${url}`);
+app.get('*', (req, res) => {
+    console.log(req.originalUrl);
+    const filename = req.originalUrl === '/' ? '/index' : req.originalUrl;
+    const filepath = path.resolve(DIST_PATH + filename + '.html');
+    if (!existsSync(filepath)) {
+        res.status(404).send('Page not found');
+        return;
+    }
+    res.sendFile(filepath);
+});
+await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
+console.log(`🚀 Server ready at http://localhost:4000/graphql`);
