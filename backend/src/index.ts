@@ -74,6 +74,8 @@ app.use(
 const FRONTEND_PATH = '../frontend'
 const DIST_PATH = FRONTEND_PATH + '/dist'
 
+app.use(express.static(DIST_PATH))
+
 app.get('/index', (req, res) => {
   res.redirect('/')
 })
