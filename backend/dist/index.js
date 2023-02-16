@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 // graphql imports
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
@@ -5,7 +6,11 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
-import { json } from 'body-parser';
+import bodyParser from 'body-parser';
+const { json } = bodyParser;
+// node
+import path from 'path';
+import { existsSync } from 'fs';
 // mocks
 import { addMocksToSchema } from '@graphql-tools/mock';
 import { makeExecutableSchema } from '@graphql-tools/schema';
@@ -39,5 +44,20 @@ app.use('/graphql', cors(), json(), expressMiddleware(server, {
         dataSources: { testAPI: new TestAPI({ prisma }) },
     }),
 }));
+const FRONTEND_PATH = '../frontend';
+const DIST_PATH = FRONTEND_PATH + '/dist';
+app.get('/index', (req, res) => {
+    res.redirect('/');
+});
+app.get('*', (req, res) => {
+    console.log(req.originalUrl);
+    const filename = req.originalUrl === '/' ? '/index' : req.originalUrl;
+    const filepath = path.resolve(DIST_PATH + filename + '.html');
+    if (!existsSync(filepath)) {
+        res.status(404).send('Page not found');
+        return;
+    }
+    res.sendFile(filepath);
+});
 await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
 console.log(`🚀 Server ready at http://localhost:4000/graphql`);
