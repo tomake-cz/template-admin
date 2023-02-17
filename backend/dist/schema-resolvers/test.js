@@ -13,7 +13,7 @@ export const typeDef = gql `
 export const resolvers = {
     Query: {
         tests: async (parent, args, { dataSources }) => {
-            return dataSources.testAPI.getAllTests();
+            return await dataSources.testAPI.getAllTests();
         },
     },
 };
