@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "generate": "graphql-codegen --config codegen.yml",
-    "compile": "npm run generate && tsc",
-    "start": "npm run compile && node ./dist/index.js",
-    "dev": "npm run compile && nodemon -x ts-node-esm ./src/index.ts",
+    "compile": "yarn generate && tsc",
+    "start": "yarn compile && node ./dist/index.js",
+    "dev": "yarn compile && nodemon -x ts-node-esm ./src/index.ts",
     "lint": "eslint --ext .ts .",
     "lint:fix": "eslint --ext .ts . --fix",
     "prisma:run": "ts-node-esm src/prisma/script.ts",
@@ -16,7 +16,7 @@
     "prisma:generate": "yarn prisma generate",
     "prisma:update": "yarn run prisma:generate && yarn run prisma:reinstall",
     "prisma:studio": "yarn prisma studio",
-    "prisma:reinstall": "yarn rimraf ./node_modules/.prisma && yarn rimraf ./node_modules/@prisma && yarn rimraf ./node_modules/prisma && npm install"
+    "prisma:reinstall": "yarn rimraf ./node_modules/.prisma && yarn rimraf ./node_modules/@prisma && yarn rimraf ./node_modules/prisma && yarn install"
   },
   "keywords": [],
   "author": "",
