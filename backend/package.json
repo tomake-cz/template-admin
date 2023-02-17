@@ -7,7 +7,7 @@
   "scripts": {
     "generate": "graphql-codegen --config codegen.yml",
     "compile": "yarn generate && tsc",
-    "start": "yarn compile && node ./dist/index.js",
+    "start": "tsc && node ./dist/index.js",
     "dev": "yarn compile && nodemon -x ts-node-esm ./src/index.ts",
     "lint": "eslint --ext .ts .",
     "lint:fix": "eslint --ext .ts . --fix",
