@@ -10,7 +10,8 @@
     <NuxtLink
       to="/second-page"
       class="text-xl font-medium underline hover:text-blue-300"
-      >Go to second page</NuxtLink
     >
+      Go to second page
+    </NuxtLink>
   </div>
 </template>

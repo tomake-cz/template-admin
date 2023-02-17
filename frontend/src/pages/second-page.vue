@@ -22,8 +22,8 @@ const { data } = await useAsyncQuery<TestsResult>(query);
     <p class="m-5 text-4xl">
       This page renders content of component with apollo query:
     </p>
-    <NuxtLink to="/" class="text-xl font-medium underline hover:text-blue-300"
-      >Back to index
+    <NuxtLink to="/" class="text-xl font-medium underline hover:text-blue-300">
+      Back to index
     </NuxtLink>
     <br />
     <Tests v-if="data?.tests" :tests="data?.tests" />

@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "generate": "graphql-codegen --config codegen.yml",
-    "compile": "npm run generate && tsc",
-    "start": "npm run compile && node ./dist/index.js",
-    "dev": "npm run compile && nodemon -x ts-node-esm ./src/index.ts",
+    "compile": "yarn generate && tsc",
+    "start": "yarn compile && node ./dist/index.js",
+    "dev": "yarn compile && nodemon -x ts-node-esm ./src/index.ts",
     "lint": "eslint --ext .ts .",
     "lint:fix": "eslint --ext .ts . --fix",
     "prisma:run": "ts-node-esm src/prisma/script.ts",

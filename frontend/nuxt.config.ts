@@ -10,6 +10,18 @@ export default defineNuxtConfig({
           href: '/favicon.ico',
         },
       ],
+      htmlAttrs: {
+        lang: 'cs',
+      },
+      meta: [
+        {
+          charset: 'utf-8',
+        },
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1',
+        },
+      ],
     },
   },
   srcDir: 'src/',
@@ -19,13 +31,18 @@ export default defineNuxtConfig({
     '@nuxtjs/apollo',
     '@nuxtjs/google-fonts',
   ],
+  css: ['~/assets/css/main.css', 'vuetify/lib/styles/main.sass'],
+  build: {
+    transpile: ['vuetify'],
+  },
   typescript: {
     shim: false,
   },
   apollo: {
     clients: {
       default: {
-        httpEndpoint: 'http://localhost:4000/graphql',
+        httpEndpoint:
+          process.env.APOLLO_ENDPOINT || 'http://localhost:4000/graphql',
       },
     },
   },
