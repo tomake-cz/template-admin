@@ -1,4 +1,4 @@
-import casual from 'casual'
+import casual from 'casual';
 
 export default {
   Query: () => ({
@@ -9,4 +9,4 @@ export default {
     name: casual.name,
     email: casual.email,
   }),
-}
+};
