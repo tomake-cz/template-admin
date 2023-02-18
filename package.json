@@ -1,11 +1,9 @@
 {
   "name": "template-admin",
   "version": "1.0.0",
-  "description": "Run yarn start to start the backend server. The server automatically generates the frontend code and serves it on specified port in .env or port 4000.",
+  "description": "Do not start this project directly. Use the subprojects instead.\nThis project is deployed to Railway with build script set to: `yarn --cwd ./backend/ install` and start script set to: `yarn --cwd ./backend/ start`.",
   "main": "index.js",
-  "scripts": {
-    "start": "cd backend && yarn && yarn start"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tomake-cz/template-admin.git"

@@ -41,8 +41,7 @@ export default defineNuxtConfig({
   apollo: {
     clients: {
       default: {
-        httpEndpoint:
-          process.env.APOLLO_ENDPOINT || 'http://localhost:4000/graphql',
+        httpEndpoint: 'http://localhost:4000/graphql',
       },
     },
   },
