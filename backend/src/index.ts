@@ -21,6 +21,7 @@ import mocks from './mocks.js';
 
 // datasources
 import { TestAPI } from './datasources/testAPI.js';
+import { SingleAPI } from './datasources/singleAPI.js';
 
 // prisma
 import { prisma } from './prisma/script.js';
@@ -31,9 +32,17 @@ import {
   resolvers as queryRes,
 } from './schema-resolvers/query.js';
 import {
+  typeDef as Mutation,
+  resolvers as mutationRes,
+} from './schema-resolvers/mutation.js';
+import {
   typeDef as Test,
   resolvers as testRes,
 } from './schema-resolvers/test.js';
+import {
+  typeDef as Single,
+  resolvers as singleRes,
+} from './schema-resolvers/single.js';
 
 // other imports
 import lodash from 'lodash';
@@ -43,19 +52,22 @@ export interface Context {
   token?: string | string[];
   dataSources: {
     testAPI: TestAPI;
+    singleAPI: SingleAPI;
   };
 }
 
 const app = express();
 const httpServer = http.createServer(app);
 const server = new ApolloServer<Context>({
-  schema: addMocksToSchema({
-    schema: makeExecutableSchema({
-      typeDefs: [Query, Test],
-      resolvers: merge(queryRes, testRes),
-    }),
-    mocks,
-  }),
+  // schema: addMocksToSchema({
+  //   schema: makeExecutableSchema({
+  //     typeDefs: [Query, Mutation, Test, Single],
+  //     resolvers: merge(queryRes, mutationRes, testRes, singleRes),
+  //   }),
+  //   mocks,
+  // }),
+  typeDefs: [Query, Mutation, Test, Single],
+  resolvers: merge(queryRes, mutationRes, testRes, singleRes),
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 await server.start();
@@ -66,7 +78,10 @@ app.use(
   expressMiddleware(server, {
     context: async ({ req }) => ({
       token: req.headers.token,
-      dataSources: { testAPI: new TestAPI({ prisma }) },
+      dataSources: {
+        testAPI: new TestAPI({ prisma }),
+        singleAPI: new SingleAPI({ prisma }),
+      },
     }),
   })
 );
@@ -96,6 +111,6 @@ app.get('*', (req, res) => {
 });
 
 await new Promise<void>((resolve) =>
-  httpServer.listen({ port: process.env.PORT || 4000 }, resolve)
+  httpServer.listen({ port: process.env.PORT ?? 4000 }, resolve)
 );
-console.log(`🚀 Server ready on port ${process.env.PORT || 4000}`);
+console.log(`🚀 Server ready on port ${process.env.PORT ?? 4000}`);

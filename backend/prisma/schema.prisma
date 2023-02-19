@@ -6,12 +6,19 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = "postgresql://postgres:n4sX4s0d5ibFTWtBBTsI@containers-us-west-45.railway.app:6620/railway"
 }
 
 model Test {
   id    Int    @id @default(autoincrement())
   name  String
   email String
+}
+
+model Single {
+  id     Int     @id @default(0)
+  name   String?
+  text   String?
+  number Int?
 }
