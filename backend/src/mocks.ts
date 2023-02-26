@@ -5,7 +5,7 @@ export default {
     tests: () => [...new Array(casual.integer(2, 5))],
   }),
   Test: () => ({
-    id: casual.integer(1, 10),
+    id: () => casual.integer(1, 10),
     name: casual.name,
     email: casual.email,
   }),
