@@ -4,6 +4,6 @@
 
 @layer components {
   .input {
-    @apply rounded-xl border-4 border-gray-400 bg-gray-200 p-2;
+    @apply rounded-xl border-2 border-gray-400 bg-gray-200 p-2;
   }
 }
