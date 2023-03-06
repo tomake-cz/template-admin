@@ -7,7 +7,11 @@ module.exports = {
     },
     extend: {
       colors: {
-        'gray-icon': '#25252599',
+        'gray-light': '#e0e0e0',
+        'gray-dark': '#d0d0d0',
+        'gray-darker': '#25252599',
+        'black-light': '#252525',
+        'black-dark': '#00000033',
       },
     },
   },
