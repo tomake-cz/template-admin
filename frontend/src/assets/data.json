@@ -1,0 +1,52 @@
+{
+  "title": "EMURY S.R.O.",
+  "logo": "",
+  "search": {
+    "text": "Najdi rychle ...",
+    "icon": ""
+  },
+  "nav": [
+    {
+      "id": 0,
+      "title": "",
+      "links": [
+        {
+          "id": 0,
+          "title": "Webové záznamy",
+          "url": "",
+          "icon": ""
+        },
+        {
+          "id": 1,
+          "title": "Zakázky",
+          "url": "",
+          "icon": ""
+        },
+        {
+          "id": 2,
+          "title": "Globální sady",
+          "url": "",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "SHORTCUTS",
+      "links": [
+        {
+          "id": 0,
+          "title": "Koš",
+          "url": "",
+          "icon": ""
+        },
+        {
+          "id": 1,
+          "title": "Nápověda",
+          "url": "",
+          "icon": ""
+        }
+      ]
+    }
+  ]
+}
