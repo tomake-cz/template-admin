@@ -5,8 +5,10 @@ module.exports = {
     fontFamily: {
       sans: ['Montserrat'],
     },
-    colors: {
-      'gray-icon': '#25252599',
+    extend: {
+      colors: {
+        'gray-icon': '#25252599',
+      },
     },
   },
   plugins: [],
