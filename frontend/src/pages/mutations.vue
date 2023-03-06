@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import AppButtonSend from '../components/app/AppButtonSend.vue';
-
 const query = gql`
   query getSingle {
     single {
@@ -68,11 +66,27 @@ const send = () => {
 
 <template>
   <div class="mt-20 flex flex-col items-center">
-    <h1 class="mb-8 text-2xl font-bold">Mutations</h1>
-    <form v-if="loading !== null && !loading" ref="form">
-      <AppInputText text="Jméno" :value="result.single?.name" name="name" />
-      <AppInputText text="Email" :value="result.single?.text" name="email" />
-      <AppInputText text="Číslo" :value="result.single?.number" name="number" />
+    <h1 class="mb-8 text-2xl">Mutations</h1>
+    <form ref="form">
+      <AppInputText
+        label="Jméno"
+        :value="result?.single?.name"
+        name="name"
+        :max-length="30"
+      />
+      <AppInputText
+        label="Email"
+        info="Zadejte váš email"
+        :value="result?.single?.text"
+        name="email"
+        :max-length="30"
+      />
+      <AppInputText
+        label="Číslo"
+        :value="result?.single?.number"
+        name="number"
+        :max-length="10"
+      />
       <AppButtonSend class="mt-3" @click="send" />
     </form>
   </div>

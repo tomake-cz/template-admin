@@ -51,9 +51,7 @@ export default defineNuxtConfig({
   },
   googleFonts: {
     families: {
-      'Source Code Pro': {
-        wght: [400],
-      },
+      Montserrat: true,
     },
   },
 });
