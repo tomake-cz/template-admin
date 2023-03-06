@@ -65,7 +65,7 @@ const send = () => {
 </script>
 
 <template>
-  <div class="mt-20 flex flex-col items-center">
+  <div class="mt-20 flex h-screen flex-col items-center">
     <h1 class="mb-8 text-2xl">Mutations</h1>
     <form ref="form">
       <AppInputText

@@ -31,7 +31,7 @@ const remainingChars = computed(() => {
         <input v-model="value" type="text" :name="name" class="input" />
         <span
           v-if="value != null"
-          class="pointer-events-none absolute top-2 right-2 text-xs text-gray-icon"
+          class="pointer-events-none absolute top-2 right-2 text-xs text-gray-darker"
         >
           {{ remainingChars }}
         </span>
