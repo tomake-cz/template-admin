@@ -3,7 +3,7 @@ module.exports = {
   content: [],
   theme: {
     fontFamily: {
-      sans: ['Montserrat'],
+      sans: ['GothamRounded'],
     },
     extend: {
       colors: {
