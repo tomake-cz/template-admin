@@ -6,7 +6,6 @@
   >
     <h1 class="m-5 text-5xl">Hello, you are on index</h1>
     <p class="m-5 text-4xl">This page renders content of component:</p>
-    <SomeComponent />
     <NuxtLink
       to="/second-page"
       class="text-xl font-medium underline hover:text-blue-300"
