@@ -20,7 +20,7 @@ const remainingChars = computed(() => {
   if (value?.value && maxLength?.value) {
     return maxLength.value - value.value.toString().length;
   }
-  return 0;
+  return maxLength?.value ?? 0;
 });
 </script>
 
