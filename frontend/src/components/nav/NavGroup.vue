@@ -7,7 +7,10 @@ const props = defineProps<{
       id: number;
       title: string;
       url: string;
-      icon: string;
+      icon: {
+        url: string;
+        alt: string;
+      };
     }[];
   };
 }>();
@@ -17,9 +20,9 @@ const { title, links } = toRefs(props.group);
 
 <template>
   <div>
-    <h2 class="text-white">{{ title }}</h2>
+    <h2 v-if="title" class="mb-6 text-gray-lighter">{{ title }}</h2>
     <template v-for="link in links" :key="link.id + link.title">
-      <NavLink :link="link" />
+      <NavLink :link="link" class="last:mb-12" />
     </template>
   </div>
 </template>

@@ -1,6 +1,8 @@
 {
   "title": "EMURY S.R.O.",
-  "logo": "",
+  "logo": {
+    "color": "#FF524B"
+  },
   "search": {
     "text": "Najdi rychle ...",
     "icon": {
