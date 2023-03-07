@@ -4,9 +4,9 @@
 
 @font-face {
   font-family: 'GothamRounded';
-  src: url('@/assets/fonts/gotham-rounded/GothamRounded-Light.otf');
-  /* font-weight: 500;
-  font-style: normal; */
+  src: url('@/assets/fonts/gotham-rounded/GothamRounded-Book.otf');
+  font-weight: 400;
+  font-style: normal;
 }
 
 @layer components {

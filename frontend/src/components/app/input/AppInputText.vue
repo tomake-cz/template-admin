@@ -28,7 +28,12 @@ const remainingChars = computed(() => {
   <AppInput :label="{ text: label, name }" :info="info">
     <template #default>
       <div class="relative">
-        <input v-model="value" type="text" :name="name" class="input" />
+        <input
+          v-model="value"
+          type="text"
+          :name="name"
+          class="input font-normal"
+        />
         <span
           v-if="value != null"
           class="pointer-events-none absolute top-2 right-2 text-xs text-gray-darker"

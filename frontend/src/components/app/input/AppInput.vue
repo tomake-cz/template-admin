@@ -13,7 +13,7 @@ defineProps<{
     <label :for="label.name" class="mb-2 text-lg font-bold uppercase">{{
       label.text
     }}</label>
-    <p v-if="info" class="mb-2 text-sm font-light">{{ info }}</p>
+    <p v-if="info" class="mb-2 text-sm font-normal">{{ info }}</p>
     <slot />
   </div>
 </template>
