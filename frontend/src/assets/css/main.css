@@ -14,3 +14,8 @@
     @apply rounded-xl border-2 border-gray-400 bg-gray-200 p-2;
   }
 }
+
+.icon-gray-dark {
+  filter: saturate(100%) brightness(0) invert(100%) sepia(1%) saturate(3743%)
+    hue-rotate(41deg) brightness(120%) contrast(63%);
+}
