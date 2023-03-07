@@ -1,5 +1,9 @@
 {
-  "title": "EMURY S.R.O.",
+  "title": "EMURY s.r.o.",
+  "accountIcon": {
+    "url": "images/icons/account.svg",
+    "alt": "account icon"
+  },
   "logo": {
     "color": "#FF524B"
   },
@@ -18,7 +22,7 @@
         {
           "id": 0,
           "title": "Webové záznamy",
-          "url": "/records",
+          "url": "",
           "icon": {
             "url": "images/icons/feather.svg",
             "alt": ""
@@ -27,7 +31,7 @@
         {
           "id": 1,
           "title": "Zakázky",
-          "url": "/orders",
+          "url": "",
           "icon": {
             "url": "images/icons/bullets.svg",
             "alt": ""
@@ -36,7 +40,7 @@
         {
           "id": 2,
           "title": "Globální sady",
-          "url": "/globals",
+          "url": "",
           "icon": {
             "url": "images/icons/globe.svg",
             "alt": ""
@@ -51,7 +55,7 @@
         {
           "id": 0,
           "title": "Koš",
-          "url": "/trash",
+          "url": "",
           "icon": {
             "url": "images/icons/trash.svg",
             "alt": ""
@@ -60,7 +64,7 @@
         {
           "id": 1,
           "title": "Nápověda",
-          "url": "/help",
+          "url": "",
           "icon": {
             "url": "images/icons/question-mark.svg",
             "alt": ""
