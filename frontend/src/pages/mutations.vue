@@ -91,7 +91,6 @@ const send = () => {
       :value="result?.single?.number"
       name="number"
       :max-length="10"
-      pattern="[0-9]*"
     />
     <AppButtonSend class="mt-3" @click="send" />
   </AppRecord>
