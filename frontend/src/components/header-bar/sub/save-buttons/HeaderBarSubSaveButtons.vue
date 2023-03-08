@@ -3,6 +3,8 @@ import { storeToRefs } from 'pinia';
 import { useAppDataStore } from '~~/src/stores/AppDataStore';
 
 const { first, second } = toRefs(storeToRefs(useAppDataStore()).save.value);
+
+const isVisible = ref(false);
 </script>
 
 <template>
@@ -10,13 +12,20 @@ const { first, second } = toRefs(storeToRefs(useAppDataStore()).save.value);
     <button class="rounded-full bg-gray-darker px-4 py-2">
       {{ first }}
     </button>
-    <button class="rounded-full bg-gray-darker px-3 py-2">
+    <button
+      class="rounded-full bg-gray-darker px-3 py-2"
+      @click="isVisible = !isVisible"
+    >
       <img
         :src="useAsset(second.icon.url)"
         :alt="second.icon.alt"
         class="h-4 w-4"
       />
     </button>
-    <HeaderBarSubSaveButtonsPopUp :actions="second.actions" />
+    <HeaderBarSubSaveButtonsPopUp
+      :is-visible="isVisible"
+      :actions="second.actions"
+      @close="isVisible = false"
+    />
   </div>
 </template>
