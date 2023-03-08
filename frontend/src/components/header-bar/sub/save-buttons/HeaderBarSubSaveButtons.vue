@@ -9,11 +9,11 @@ const isVisible = ref(false);
 
 <template>
   <div class="relative flex gap-2 text-sm text-gray-lighter">
-    <button class="rounded-full bg-gray-darker px-4 py-2">
+    <button class="rounded-full bg-site-2 px-4 py-2 hover:bg-site-1">
       {{ first }}
     </button>
     <button
-      class="rounded-full bg-gray-darker px-3 py-2"
+      class="rounded-full bg-site-2 px-3 py-2 hover:bg-site-1"
       @click="isVisible = !isVisible"
     >
       <img
