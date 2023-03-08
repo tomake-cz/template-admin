@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { useAppDataStore } from '~~/src/stores/AppDataStore';
 
-const { title } = toRefs(storeToRefs(useAppDataStore()));
+const { title } = storeToRefs(useAppDataStore());
 </script>
 
 <template>
