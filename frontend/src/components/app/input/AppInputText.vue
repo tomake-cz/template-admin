@@ -32,7 +32,7 @@ const remainingChars = computed(() => {
           v-model="value"
           type="text"
           :name="name"
-          class="input font-normal"
+          class="w-full font-normal"
         />
         <span
           v-if="value != null"
