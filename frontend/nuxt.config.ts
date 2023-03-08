@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'TOMAKE Template',
+      title: 'TOMAKER Template',
       link: [
         {
           rel: 'icon',
