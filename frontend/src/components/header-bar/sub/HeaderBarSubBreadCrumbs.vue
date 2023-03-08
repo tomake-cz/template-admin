@@ -2,7 +2,7 @@
 
 <template>
   <div class="text-xs text-gray-lighter">
-    <span class="text-gray-darker">Webové záznamy</span>
+    <span class="text-black-light">Webové záznamy</span>
     <span class="mx-2">/</span>
     <span>hlavička</span>
   </div>
