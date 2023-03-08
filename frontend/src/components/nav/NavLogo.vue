@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { useAppDataStore } from '~~/src/stores/AppDataStore';
 
-const { color } = toRefs(storeToRefs(useAppDataStore()).logo.value);
+const { main: color } = toRefs(storeToRefs(useAppDataStore()).colors.value);
 const k = 100;
 </script>
 
