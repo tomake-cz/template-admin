@@ -1,5 +1,5 @@
 <template>
-  <div class="flex font-sans font-bold">
+  <div class="flex h-screen font-sans font-bold">
     <NavMenu />
     <div class="grow">
       <HeaderBar />
