@@ -8,8 +8,34 @@
     "url": "images/icons/account.svg",
     "alt": "account icon"
   },
-  "logo": {
-    "color": "#FF524B"
+  "save": {
+    "first": "Nahrát",
+    "second": {
+      "icon": {
+        "url": "images/icons/cross.svg",
+        "alt": "save icon"
+      },
+      "actions": [
+        {
+          "id": 0,
+          "action": "saveAndContinue",
+          "text": "Uložit a pokračovat v editaci",
+          "shortcut": "ctrl + s"
+        },
+        {
+          "id": 1,
+          "action": "saveAsNewRevision",
+          "text": "Uložit jako novou revizi",
+          "shortcut": "ctrl + shift + s"
+        },
+        {
+          "id": 2,
+          "action": "delete",
+          "text": "Odstranit úpravy",
+          "shortcut": ""
+        }
+      ]
+    }
   },
   "search": {
     "text": "Najdi rychle ...",
