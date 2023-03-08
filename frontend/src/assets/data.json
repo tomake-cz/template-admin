@@ -52,7 +52,7 @@
         {
           "id": 0,
           "title": "Webové záznamy",
-          "url": "",
+          "url": "#",
           "icon": {
             "url": "images/icons/feather.svg",
             "alt": ""
@@ -61,7 +61,7 @@
         {
           "id": 1,
           "title": "Zakázky",
-          "url": "",
+          "url": "#",
           "icon": {
             "url": "images/icons/bullets.svg",
             "alt": ""
@@ -70,7 +70,7 @@
         {
           "id": 2,
           "title": "Globální sady",
-          "url": "",
+          "url": "#",
           "icon": {
             "url": "images/icons/globe.svg",
             "alt": ""
@@ -85,7 +85,7 @@
         {
           "id": 0,
           "title": "Koš",
-          "url": "",
+          "url": "#",
           "icon": {
             "url": "images/icons/trash.svg",
             "alt": ""
@@ -94,7 +94,7 @@
         {
           "id": 1,
           "title": "Nápověda",
-          "url": "",
+          "url": "#",
           "icon": {
             "url": "images/icons/question-mark.svg",
             "alt": ""

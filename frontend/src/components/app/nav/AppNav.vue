@@ -15,12 +15,12 @@ const groups: {
       {
         id: 0,
         title: 'Hlavička',
-        url: '',
+        url: '#',
       },
       {
         id: 1,
         title: 'Proč FVE od nás?',
-        url: '',
+        url: '#',
       },
     ],
   },
@@ -31,12 +31,12 @@ const groups: {
       {
         id: 0,
         title: 'Hlavička',
-        url: '',
+        url: '#',
       },
       {
         id: 1,
         title: 'Galerie',
-        url: '',
+        url: '#',
       },
     ],
   },
