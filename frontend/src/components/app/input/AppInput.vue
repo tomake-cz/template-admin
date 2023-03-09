@@ -3,7 +3,7 @@ defineProps<{
   label: string;
   name?: string;
   info?: string;
-  isSmaller: boolean;
+  isSmaller?: boolean;
 }>();
 </script>
 
