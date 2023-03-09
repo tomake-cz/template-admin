@@ -14,6 +14,7 @@ const isActive = computed(() => route.path === url.value);
   <NuxtLink
     :to="url"
     :class="[isActive ? 'text-black-light' : 'text-gray-darker']"
+    class="text-sm"
   >
     {{ title }}
   </NuxtLink>
