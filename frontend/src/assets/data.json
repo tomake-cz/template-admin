@@ -52,11 +52,45 @@
         {
           "id": 0,
           "title": "Webové záznamy",
-          "url": "#",
+          "url": "/records",
           "icon": {
             "url": "images/icons/feather.svg",
             "alt": ""
-          }
+          },
+          "groups": [
+            {
+              "id": 0,
+              "title": "Hlavní strana",
+              "links": [
+                {
+                  "id": 0,
+                  "title": "Hlavička",
+                  "url": "/records/hlavni-strana/hlavicka"
+                },
+                {
+                  "id": 1,
+                  "title": "Proč FVE od nás?",
+                  "url": "#"
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "title": "Portfolio",
+              "links": [
+                {
+                  "id": 0,
+                  "title": "Hlavička",
+                  "url": "#"
+                },
+                {
+                  "id": 1,
+                  "title": "Galerie",
+                  "url": "#"
+                }
+              ]
+            }
+          ]
         },
         {
           "id": 1,
