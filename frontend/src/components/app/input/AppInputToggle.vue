@@ -6,10 +6,12 @@ withDefaults(
     text: string;
     value?: boolean;
     id: string;
+    isSmaller?: boolean;
   }>(),
   {
     info: '',
     value: false,
+    isSmaller: false,
   },
 );
 
@@ -17,7 +19,7 @@ const isChecked = ref(false);
 </script>
 
 <template>
-  <AppInput :id="id" :label="label" :info="info">
+  <AppInput :id="id" :label="label" :info="info" :is-smaller="isSmaller">
     <div class="flex items-center gap-2">
       <label :for="useIdPrefix(id)" class="text-xs font-normal">{{
         text
