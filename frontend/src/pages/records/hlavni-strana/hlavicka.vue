@@ -2,7 +2,7 @@
 
 <template>
   <AppRecord>
-    <AppInputText label="Nadpis" />
-    <AppInputText label="Podnadpis" />
+    <AppInputText id="heading" label="Nadpis" />
+    <AppInputText id="subheading" label="Podnadpis" />
   </AppRecord>
 </template>

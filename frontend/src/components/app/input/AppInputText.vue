@@ -29,7 +29,7 @@ const remainingChars = computed(() => {
     <template #default>
       <div class="relative">
         <input
-          :id="id"
+          :id="useIdPrefix(id)"
           v-model="value"
           type="text"
           class="input w-full font-normal"

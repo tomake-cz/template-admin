@@ -74,22 +74,22 @@ const send = () => {
 <template>
   <AppRecord id="mutations">
     <AppInputText
+      id="name"
       label="Jméno"
       :value="result?.single?.name"
-      name="name"
       :max-length="30"
     />
     <AppInputText
+      id="email"
       label="Email"
       info="Zadejte váš email"
       :value="result?.single?.text"
-      name="email"
       :max-length="30"
     />
     <AppInputText
+      id="number"
       label="Číslo"
       :value="result?.single?.number"
-      name="number"
       :max-length="10"
     />
     <AppButtonSend class="mt-3" @click="send" />

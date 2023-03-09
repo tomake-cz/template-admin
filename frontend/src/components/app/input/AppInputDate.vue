@@ -11,6 +11,10 @@ const { label } = toRefs(props);
 
 <template>
   <AppInput :id="id" :label="label" :info="info" :is-smaller="isSmaller">
-    <input type="datetime-local" class="text-xs font-normal" />
+    <input
+      :id="useIdPrefix(id)"
+      type="datetime-local"
+      class="text-xs font-normal"
+    />
   </AppInput>
 </template>
