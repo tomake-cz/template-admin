@@ -35,8 +35,8 @@ const isChecked = ref(false);
           class="hidden"
         />
         <span
-          :class="{ 'translate-x-4': isChecked }"
-          class="pointer-events-none absolute left-px h-[14px] w-[14px] rounded-full bg-site-2 transition-transform"
+          :class="[isChecked ? 'translate-x-4 bg-site-2' : 'bg-site-1']"
+          class="pointer-events-none absolute left-px h-[14px] w-[14px] rounded-full transition-all"
         />
       </label>
     </div>
