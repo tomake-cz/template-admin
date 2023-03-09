@@ -16,7 +16,7 @@ const { text, icon } = toRefs(search.value);
     <input
       type="text"
       :placeholder="text"
-      class="h-full w-full rounded-3xl bg-gray-light p-4 pl-11 text-xs text-gray-dark"
+      class="h-full w-full rounded-full bg-gray-light p-4 pl-11 text-xs text-gray-dark"
     />
   </div>
 </template>

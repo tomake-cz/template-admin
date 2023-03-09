@@ -17,7 +17,13 @@
 
 @layer base {
   input {
-    @apply rounded-xl border-2 border-solid border-gray-dark bg-gray-light p-2 focus:outline-none !important;
+    @apply focus:outline-none;
+  }
+}
+
+@layer components {
+  .input {
+    @apply rounded-xl border-2 border-solid border-gray-dark bg-gray-light p-2;
   }
 }
 
