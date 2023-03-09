@@ -3,14 +3,14 @@ const props = defineProps<{
   label: string;
   info?: string;
   value?: string;
-  name?: string;
+  id: string;
   isSmaller?: boolean;
 }>();
 const { label } = toRefs(props);
 </script>
 
 <template>
-  <AppInput :label="label" :info="info" :name="name" :is-smaller="isSmaller">
+  <AppInput :id="id" :label="label" :info="info" :is-smaller="isSmaller">
     <input type="datetime-local" class="text-xs font-normal" />
   </AppInput>
 </template>

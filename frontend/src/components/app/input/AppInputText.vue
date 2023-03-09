@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const props = defineProps<{
-  label?: string;
+  label: string;
   info?: string;
   value?: string | number;
-  name?: string;
+  id: string;
   maxLength?: number;
 }>();
 const { maxLength } = toRefs(props);
@@ -25,13 +25,13 @@ const remainingChars = computed(() => {
 </script>
 
 <template>
-  <AppInput :label="{ text: label, name }" :info="info">
+  <AppInput :id="id" :label="label" :info="info">
     <template #default>
       <div class="relative">
         <input
+          :id="id"
           v-model="value"
           type="text"
-          :name="name"
           class="input w-full font-normal"
         />
         <span
