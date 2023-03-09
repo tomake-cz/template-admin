@@ -13,7 +13,7 @@ const props = defineProps<{
 const { title, url, icon } = toRefs(props.link);
 
 const route = useRoute();
-const isActive = computed(() => route.path === url.value);
+const isActive = computed(() => '/' + route.path.split('/')[1] === url.value);
 const isHover = ref(false);
 </script>
 
