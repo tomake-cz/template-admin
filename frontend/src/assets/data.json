@@ -136,5 +136,30 @@
         }
       ]
     }
-  ]
+  ],
+  "controlPanel": {
+    "controls": {
+      "dateUpload": "Datum vydání:",
+      "dateExpire": "Datum expirace:",
+      "calendarIcon": {
+        "url": "images/icons/calendar.svg",
+        "alt": ""
+      },
+      "clockIcon": {
+        "url": "images/icons/clock.svg",
+        "alt": ""
+      },
+      "state": {
+        "label": "Stav:",
+        "text": "V provozu"
+      },
+      "created": "Vytvořeno:",
+      "updated": "Aktualizováno:",
+      "profileIcon": {
+        "url": "images/icons/profile-smaller.svg",
+        "alt": ""
+      }
+    },
+    "notes": "Poznámky ke změnám"
+  }
 }
