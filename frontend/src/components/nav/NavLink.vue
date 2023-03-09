@@ -21,7 +21,7 @@ const isHover = ref(false);
   <NuxtLink
     :to="url"
     :class="{ 'bg-black-dark': isActive }"
-    class="flex rounded-xl p-5"
+    class="flex rounded-xl p-4"
     @mouseenter="isHover = true"
     @mouseleave="isHover = false"
   >
