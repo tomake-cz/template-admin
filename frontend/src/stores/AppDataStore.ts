@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
-import data from '@/assets/data.json';
+import { appData } from './../util/store';
 
 export const useAppDataStore = defineStore('appData', {
   state: () => ({
-    ...data,
+    ...appData(),
   }),
   getters: {
     // ...

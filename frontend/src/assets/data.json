@@ -1,4 +1,5 @@
 {
+  "isChanged": false,
   "colors": {
     "main": "#FF524B",
     "secondary": "#FF524B"
@@ -61,27 +62,24 @@
             {
               "id": 0,
               "title": "Hlavní strana",
+              "url": "/hlavni-strana",
               "links": [
                 {
-                  "id": 99,
-                  "title": "Mutace",
-                  "url": "/records/hlavni-strana/mutace"
-                },
-                {
                   "id": 0,
-                  "title": "Hlavička",
-                  "url": "/records/hlavni-strana/hlavicka"
+                  "title": "Mutace",
+                  "url": "/mutace"
                 },
                 {
                   "id": 1,
-                  "title": "Proč FVE od nás?",
-                  "url": "#"
+                  "title": "Hlavička",
+                  "url": "/hlavicka"
                 }
               ]
             },
             {
               "id": 1,
               "title": "Portfolio",
+              "url": "",
               "links": [
                 {
                   "id": 0,
