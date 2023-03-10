@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen font-sans font-bold">
+  <div class="flex min-h-screen overflow-hidden font-sans font-bold">
     <NavMenu />
     <div class="grow">
       <HeaderBar />
