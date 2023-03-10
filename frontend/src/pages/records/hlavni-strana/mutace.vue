@@ -9,6 +9,7 @@ const query = gql`
     }
   }
 `;
+
 type Query = {
   single: {
     id: string;
@@ -35,7 +36,7 @@ const mutation = gql`
   }
 `;
 
-const send = () => {
+useSetMutation(() => {
   const values = useCurrentPageInputs();
 
   const { mutate, onDone, onError } = useMutation(mutation, {
@@ -55,7 +56,7 @@ const send = () => {
     console.log(error);
     alert(`Data se nepodařilo uložit`);
   });
-};
+});
 </script>
 
 <template>
@@ -79,6 +80,5 @@ const send = () => {
       :value="result?.single?.number"
       :max-length="10"
     />
-    <AppButtonSend class="mt-3" @click="send" />
   </AppRecord>
 </template>

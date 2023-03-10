@@ -12,7 +12,7 @@ const title = path.slice(0, 1).toUpperCase() + path.slice(1);
         <h1 class="text-3xl">{{ title }}</h1>
         <AppRevisionHistory />
       </div>
-      <div class="flex flex-col gap-6">
+      <div :id="useHyphenPath()" class="flex flex-col gap-6">
         <slot />
       </div>
     </div>
