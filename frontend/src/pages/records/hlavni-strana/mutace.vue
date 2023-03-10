@@ -35,29 +35,16 @@ const mutation = gql`
   }
 `;
 
-const getValues = () => {
-  const inputs = document
-    .querySelector('#mutations')
-    ?.querySelectorAll('input');
-  return [...(inputs ?? [])].map((input) => input.value);
-};
-
 const send = () => {
-  const values = getValues();
+  const values = useCurrentPageInputs();
 
   const { mutate, onDone, onError } = useMutation(mutation, {
     variables: {
-      name: values[0],
-      text: values[1],
-      number: parseInt(values[2]),
+      name: values.get('name'),
+      text: values.get('email'),
+      number: parseInt(values.get('number') as string),
     },
   });
-
-  console.log(
-    values[0],
-    values[1],
-    'number: ' + parseInt(values[2] + values[2]),
-  );
 
   mutate();
   onDone((data) => {
@@ -72,7 +59,7 @@ const send = () => {
 </script>
 
 <template>
-  <AppRecord id="mutations">
+  <AppRecord>
     <AppInputText
       id="name"
       label="Jméno"

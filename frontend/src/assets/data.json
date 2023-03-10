@@ -63,6 +63,11 @@
               "title": "Hlavní strana",
               "links": [
                 {
+                  "id": 99,
+                  "title": "Mutace",
+                  "url": "/records/hlavni-strana/mutace"
+                },
+                {
                   "id": 0,
                   "title": "Hlavička",
                   "url": "/records/hlavni-strana/hlavicka"
