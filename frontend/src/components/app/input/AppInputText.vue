@@ -32,6 +32,7 @@ const remainingChars = computed(() => {
           :id="useIdPrefix(id)"
           v-model="value"
           type="text"
+          :maxlength="maxLength ?? Infinity"
           class="input w-full font-normal"
         />
         <span
