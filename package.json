@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Do not start this project directly. Use the subprojects instead.\nThis project is deployed to Railway with build script set to: `yarn --cwd ./backend/ install && yarn --cwd ./backend/ frontend:generate` and start script set to: `yarn --cwd ./backend/ start`.",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "yarn --cwd ./backend/ start",
+    "build": "yarn --cwd ./backend/ install && yarn --cwd ./backend/ frontend:generate"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tomake-cz/template-admin.git"
