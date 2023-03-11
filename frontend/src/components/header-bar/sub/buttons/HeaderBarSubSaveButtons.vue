@@ -22,7 +22,7 @@ const isVisible = ref(false);
         class="h-4 w-4"
       />
     </button>
-    <HeaderBarSubSaveButtonsPopUp
+    <HeaderBarSubButtonsPopUp
       :is-visible="isVisible"
       :actions="second.actions"
       @close="isVisible = false"

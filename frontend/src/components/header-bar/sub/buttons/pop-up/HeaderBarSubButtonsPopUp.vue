@@ -23,7 +23,7 @@ defineEmits(['close']);
           v-for="(action, i) in actions"
           :key="action.id + action.action"
         >
-          <HeaderBarSubSaveButtonPopUpAction
+          <HeaderBarSubButtonsPopUpAction
             :is-last="i === actions.length - 1"
             :action="action"
             @close="$emit('close')"
