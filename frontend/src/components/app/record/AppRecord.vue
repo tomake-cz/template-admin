@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useAppDataStore } from '~~/src/stores/AppDataStore';
+
+const { translateURL } = storeToRefs(useAppDataStore());
+
 const route = useRoute();
-const path = route.path.split('/')[1];
-const title = path.slice(0, 1).toUpperCase() + path.slice(1);
+const title = ref(translateURL.value(route.path));
 </script>
 
 <template>
