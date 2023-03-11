@@ -17,7 +17,7 @@ defineEmits(['close']);
     <Transition>
       <div
         v-if="isVisible"
-        class="absolute top-12 right-0 z-50 flex w-[332px] flex-col rounded-xl bg-black-light"
+        class="absolute top-12 right-0 z-50 flex w-[332px] flex-col rounded-[12px] bg-black-light"
       >
         <template
           v-for="(action, i) in actions"
