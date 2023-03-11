@@ -10,6 +10,14 @@ export const useAppDataStore = defineStore('appData', {
     translateURL: (state) => (path: string) => {
       return findLinkByPath(path, state.nav)?.title;
     },
+    firstNestedLink: (state) => {
+      return (
+        state.nav[0].links[0]?.groups?.[0].links[0] ?? {
+          title: 'No Link',
+          url: '/',
+        }
+      );
+    },
     // AppNav
     childGroups: (state) => (site: string) => {
       let parentIndex = 0;
