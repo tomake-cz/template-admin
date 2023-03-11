@@ -24,3 +24,22 @@ export const appData = () => {
   data.isChanged = true;
   return data;
 };
+
+export const findLinkByPath = (path: string, nav: Nav) => {
+  for (const group of nav) {
+    for (const link of group.links) {
+      if (link.url === path) return link;
+      for (const group of link.groups || []) {
+        if (group.url === path) return group;
+        for (const link of group.links || []) {
+          if (link.url === path) return link;
+        }
+      }
+    }
+  }
+
+  return {
+    title: 'Not Found',
+    url: '/404',
+  };
+};

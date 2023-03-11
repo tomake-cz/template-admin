@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { appData } from './../util/store';
+import { appData, findLinkByPath } from './../util/store';
 
 export const useAppDataStore = defineStore('appData', {
   state: () => ({
@@ -7,6 +7,10 @@ export const useAppDataStore = defineStore('appData', {
   }),
   getters: {
     // ...
+    translateURL: (state) => (path: string) => {
+      return findLinkByPath(path, state.nav)?.title;
+    },
+    // AppNav
     childGroups: (state) => (site: string) => {
       let parentIndex = 0;
       let childIndex = 0;
