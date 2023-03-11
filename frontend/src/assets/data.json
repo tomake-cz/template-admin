@@ -53,7 +53,7 @@
         {
           "id": 0,
           "title": "Webové záznamy",
-          "url": "/records",
+          "url": "/webove-zaznamy",
           "icon": {
             "url": "images/icons/feather.svg",
             "alt": ""
