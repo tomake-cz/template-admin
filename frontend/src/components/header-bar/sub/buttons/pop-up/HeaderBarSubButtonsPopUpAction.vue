@@ -2,6 +2,8 @@
 defineProps<{
   isLast: boolean;
   action: {
+    id: number;
+    name: string;
     text: string;
     shortcut: string;
   };

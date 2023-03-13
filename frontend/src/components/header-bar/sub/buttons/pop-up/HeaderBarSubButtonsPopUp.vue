@@ -2,7 +2,8 @@
 const props = defineProps<{
   isVisible: boolean;
   actions: {
-    action: string;
+    id: number;
+    name: string;
     text: string;
     shortcut: string;
   }[];

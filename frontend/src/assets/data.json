@@ -9,35 +9,47 @@
     "url": "images/icons/account.svg",
     "alt": "account icon"
   },
-  "save": {
-    "first": "Nahrát",
-    "second": {
-      "icon": {
-        "url": "images/icons/cross.svg",
-        "alt": "save icon"
-      },
-      "actions": [
-        {
-          "id": 0,
-          "action": "saveAndContinue",
-          "text": "Uložit a pokračovat v editaci",
-          "shortcut": "ctrl + s"
-        },
-        {
-          "id": 1,
-          "action": "saveAsNewRevision",
-          "text": "Uložit jako novou revizi",
-          "shortcut": "ctrl + shift + s"
-        },
-        {
-          "id": 2,
-          "action": "delete",
-          "text": "Odstranit úpravy",
-          "shortcut": ""
-        }
-      ]
+  "actions": [
+    {
+      "id": 0,
+      "name": "saveAndLeave",
+      "text": "Nahrát",
+      "shortcut": ""
+    },
+    {
+      "id": 1,
+      "name": "saveAndContinue",
+      "text": "Uložit a pokračovat v editaci",
+      "shortcut": "ctrl + s"
+    },
+    {
+      "id": 2,
+      "name": "saveAsNewRevision",
+      "text": "Uložit jako novou revizi",
+      "shortcut": "ctrl + shift + s"
+    },
+    {
+      "id": 3,
+      "name": "delete",
+      "text": "Odstranit úpravy",
+      "shortcut": ""
     }
-  },
+  ],
+  "headerButtonStates": [
+    {
+      "name": "record",
+      "first": {
+        "action": "saveAndLeave"
+      },
+      "second": {
+        "icon": {
+          "url": "images/icons/cross.svg",
+          "alt": "save icon"
+        },
+        "actions": ["saveAndContinue", "saveAsNewRevision", "delete"]
+      }
+    }
+  ],
   "search": {
     "text": "Najdi rychle ...",
     "icon": {

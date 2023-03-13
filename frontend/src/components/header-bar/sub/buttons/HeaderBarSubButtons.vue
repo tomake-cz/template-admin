@@ -2,16 +2,38 @@
 import { storeToRefs } from 'pinia';
 import { useAppDataStore } from '~~/src/stores/AppDataStore';
 
-const { first, second } = toRefs(storeToRefs(useAppDataStore()).save.value);
+const { headerButtonStates } = storeToRefs(useAppDataStore());
+const {
+  first: { action: first },
+  second,
+} = headerButtonStates.value.find((state) => state.name === 'record') ?? {
+  name: 'none',
+  first: {
+    action: {
+      id: -1,
+      name: 'none',
+      text: 'none',
+      shortcut: 'none',
+    },
+  },
+  second: {
+    icon: {
+      url: 'none',
+      alt: 'none',
+    },
+    actions: [],
+  },
+};
 
 const isVisible = ref(false);
 </script>
 
 <template>
   <div class="relative flex gap-2 text-sm text-gray-lighter">
-    <AppButtonUpload class="rounded-full bg-site-2 px-4 py-2 hover:bg-site-1">
-      {{ first }}
-    </AppButtonUpload>
+    <AppButtonUpload
+      :action="first"
+      class="rounded-full bg-site-2 px-4 py-2 hover:bg-site-1"
+    />
     <button
       class="rounded-full bg-site-2 px-3 py-2 hover:bg-site-1"
       @click="isVisible = !isVisible"

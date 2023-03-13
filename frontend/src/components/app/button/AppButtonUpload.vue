@@ -1,15 +1,17 @@
 <script setup lang="ts">
-let upload = () => {
-  console.log('fallback');
-};
+const props = defineProps<{
+  action: {
+    id: number;
+    name: string;
+    text: string;
+    shortcut: string;
+  };
+}>();
+const { name, text } = toRefs(props.action);
 
-onMounted(() => {
-  upload = useGetMutation() ?? upload;
-});
+const actionFn = useGetAction(name.value);
 </script>
 
 <template>
-  <button type="button" @click="upload">
-    <slot />
-  </button>
+  <button type="button" @click="actionFn">{{ text }}</button>
 </template>
