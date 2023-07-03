@@ -1,4 +1,5 @@
-import { copyFile } from 'fs';
+/* eslint-disable no-console */
+import { cp } from 'fs';
 
 const ADMIN = './node_modules/@patrik_hajek/admin/';
 
@@ -12,11 +13,11 @@ const FILES = [
   'src/plugins',
   'src/public',
   'src/server/api',
-  'src/server/middleware',
+  // 'src/server/middleware',
   'src/server/prisma',
   'src/server/scripts',
   'src/server/trpc/routers/index.ts',
-  'src/server/trpc/routers/assets.ts',
+  'src/server/trpc/routers/asset.ts',
   'src/server/trpc/context.ts',
   'src/server/trpc/trpc.ts',
   'src/server/utils',
@@ -26,20 +27,24 @@ const FILES = [
   'src/app.vue',
   'src/env.ts',
   '.eslintrc.json',
-  '.gitignore',
   '.lintstagedrc.json',
-  '.npmrc',
-  '.prettierrc.json',
-  '.prettierrc.json',
   'nuxt.config.ts',
-  'package.json?',
+  // 'package.json',
   'tailwind.config.js',
   'tsconfig.json',
 ];
 
 FILES.forEach((file) => {
-  copyFile(ADMIN + file, file, (err) => {
-    if (err) throw err;
-    console.log(`${file} was successfully copied`);
+  cp(ADMIN + file, file, { recursive: true }, (err) => {
+    if (!err) {
+      return;
+    }
+
+    if (err.code === 'ENOENT') {
+      console.log(`${file} does not exist`);
+      return;
+    }
+
+    console.error(err);
   });
 });
