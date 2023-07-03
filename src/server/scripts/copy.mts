@@ -26,6 +26,7 @@ const FILES = [
   'src/server/scripts/types.mts',
   'src/server/trpc/routers/index.ts',
   'src/server/trpc/routers/asset.ts',
+  'src/server/trpc/routers/view.ts',
   'src/server/trpc/context.ts',
   'src/server/trpc/trpc.ts',
   'src/server/utils',
