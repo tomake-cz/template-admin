@@ -10,6 +10,8 @@ const FILES = [
   'src/composables',
   'src/layouts',
   'src/middlewares',
+  'src/pages/assets',
+  'src/pages/index.vue',
   'src/plugins',
   'src/public',
   'src/server/api',
