@@ -16,3 +16,4 @@ dist
 .npmrc
 src/assets/fonts
 src/assets/images
+*.ico
