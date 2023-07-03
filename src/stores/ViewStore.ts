@@ -1,4 +1,4 @@
-import jsonData from '@/assets/data.json';
+import jsonData from '@/assets/app.json';
 
 const jsonView = jsonData.defaultValues.view;
 export const defaultView: View = {

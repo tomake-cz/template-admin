@@ -1,4 +1,4 @@
-import json from '@/assets/data.json';
+import json from '@/assets/app.json';
 
 type Notification = Omit<(typeof json.notifications.states)[0], 'id'> & {
   id: string;

@@ -1,6 +1,8 @@
-import jsonData from '@/assets/data.json';
+import jsonData from '@/assets/app.json';
+import clientJsonData from '@/assets/client.json';
 
 type JSONData = typeof jsonData;
+type ClientJSONData = typeof clientJsonData;
 
 type Action = (typeof jsonData.actions)[0];
 type JSONHeaderButtonStates = (typeof jsonData.headerButtons.states)[0];
@@ -28,15 +30,16 @@ type ViewsOptions = Omit<JSONViewsOptions, 'settings' | 'state'> & {
   };
 };
 
-type ModifiedData = Omit<JSONData, 'headerButtons' | 'views'> & {
-  headerButtons: Omit<JSONData['headerButtons'], 'states'> & {
-    states: HeaderButtonStates;
+type ModifiedData = ClientJSONData &
+  Omit<JSONData, 'headerButtons' | 'views'> & {
+    headerButtons: Omit<JSONData['headerButtons'], 'states'> & {
+      states: HeaderButtonStates;
+    };
+    views: Omit<JSONData['views'], 'tabs' | 'options'> & {
+      tabs: ViewsTabs;
+      options: ViewsOptions;
+    };
   };
-  views: Omit<JSONData['views'], 'tabs' | 'options'> & {
-    tabs: ViewsTabs;
-    options: ViewsOptions;
-  };
-};
 
 type Nav = typeof jsonData.nav;
 const createLinks = (navP: Nav) => {
@@ -119,6 +122,7 @@ const transformViews = (jsonData: JSONData) => {
 jsonData.nav = createLinks(jsonData.nav);
 
 const data = {
+  ...clientJsonData,
   ...jsonData,
   headerButtons: transformHeaderButtons(jsonData),
   views: transformViews(jsonData),
