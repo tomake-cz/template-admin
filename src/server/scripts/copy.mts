@@ -15,6 +15,7 @@ const FILES = [
   'src/middlewares',
   'src/pages/assets',
   'src/pages/index.vue',
+  'src/pages/webove-zaznamy/index.vue',
   'src/plugins',
   'src/public',
   'src/server/api',
