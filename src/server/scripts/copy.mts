@@ -4,7 +4,7 @@ import { cp, rmSync } from 'fs';
 const ADMIN = './node_modules/@patrik_hajek/admin/';
 
 const FILES = [
-  '.husky',
+  '.husky/pre-commit',
   'src/assets/css',
   'src/assets/fonts',
   'src/assets/images',
