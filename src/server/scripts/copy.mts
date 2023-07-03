@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { cp, rmSync } from 'fs';
+import { cp, rmSync, readFile, writeFile } from 'fs';
 
 const ADMIN = './node_modules/@patrik_hajek/admin/';
 
@@ -43,23 +43,47 @@ const FILES = [
   'tsconfig.json',
 ];
 
-FILES.forEach((file) => {
-  try {
-    rmSync(file, { recursive: true, force: true });
-  } catch (err) {
-    console.error(err);
+const promises = FILES.map((file) => {
+  return new Promise((resolve, reject) => {
+    try {
+      rmSync(file, { recursive: true, force: true });
+    } catch (err) {
+      console.error(err);
+    }
+
+    cp(ADMIN + file, file, { recursive: true }, (err) => {
+      if (!err) {
+        resolve(null);
+        return;
+      }
+
+      if (err.code === 'ENOENT') {
+        console.log(`${file} does not exist`);
+        resolve(null);
+        return;
+      }
+
+      reject(err);
+    });
+  });
+});
+await Promise.all(promises);
+
+const routers = ['singleRouter', 'multiRouter', 'globalRouter'];
+const indexRouterPath = './src/server/trpc/routers/index.ts';
+
+readFile(indexRouterPath, 'utf8', (err, data) => {
+  if (err) {
+    throw err;
   }
 
-  cp(ADMIN + file, file, { recursive: true }, (err) => {
-    if (!err) {
-      return;
-    }
+  const result = data.split('\n').filter((line) => {
+    return !new RegExp(routers.join('|')).test(line);
+  });
 
-    if (err.code === 'ENOENT') {
-      console.log(`${file} does not exist`);
-      return;
+  writeFile(indexRouterPath, result.join('\n'), 'utf8', (err) => {
+    if (err) {
+      throw err;
     }
-
-    console.error(err);
   });
 });
