@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { cp } from 'fs';
+import { cp, rmSync } from 'fs';
 
 const ADMIN = './node_modules/@patrik_hajek/admin/';
 
@@ -21,7 +21,9 @@ const FILES = [
   'src/server/api',
   // 'src/server/middleware',
   'src/server/prisma',
-  'src/server/scripts',
+  'src/server/scripts/import.mts',
+  'src/server/scripts/run.mts',
+  'src/server/scripts/types.mts',
   'src/server/trpc/routers/index.ts',
   'src/server/trpc/routers/asset.ts',
   'src/server/trpc/context.ts',
@@ -41,6 +43,12 @@ const FILES = [
 ];
 
 FILES.forEach((file) => {
+  try {
+    rmSync(file, { recursive: true, force: true });
+  } catch (err) {
+    console.error(err);
+  }
+
   cp(ADMIN + file, file, { recursive: true }, (err) => {
     if (!err) {
       return;
