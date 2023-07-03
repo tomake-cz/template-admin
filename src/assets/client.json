@@ -3,5 +3,106 @@
     "main": "#FF524B",
     "secondary": "#FF524B"
   },
-  "title": "EMURY s.r.o."
+  "title": "EMURY s.r.o.",
+  "nav": [
+    {
+      "id": 0,
+      "title": "",
+      "links": [
+        {
+          "id": 0,
+          "title": "Webové záznamy",
+          "url": "/webove-zaznamy",
+          "icon": {
+            "url": "images/icons/feather.svg",
+            "alt": ""
+          },
+          "groups": [
+            {
+              "id": 0,
+              "title": "Hlavní strana",
+              "url": "/hlavni-strana",
+              "links": [
+                {
+                  "id": 0,
+                  "title": "Mutace",
+                  "url": "/mutace"
+                },
+                {
+                  "id": 1,
+                  "title": "Struktura",
+                  "url": "/multi"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "title": "Zakázky",
+          "url": "#",
+          "icon": {
+            "url": "images/icons/bullets.svg",
+            "alt": ""
+          }
+        },
+        {
+          "id": 2,
+          "title": "Globální sady",
+          "url": "/globalni-sady",
+          "icon": {
+            "url": "images/icons/globe.svg",
+            "alt": ""
+          },
+          "groups": [
+            {
+              "id": 0,
+              "title": "Globální sady",
+              "url": "",
+              "links": [
+                {
+                  "id": 0,
+                  "title": "Kontakty",
+                  "url": "/kontakty"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Soubory",
+          "url": "/assets",
+          "icon": {
+            "url": "images/icons/globe.svg",
+            "alt": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "SHORTCUTS",
+      "links": [
+        {
+          "id": 0,
+          "title": "Koš",
+          "url": "#",
+          "icon": {
+            "url": "images/icons/trash.svg",
+            "alt": ""
+          }
+        },
+        {
+          "id": 1,
+          "title": "Nápověda",
+          "url": "#",
+          "icon": {
+            "url": "images/icons/question-mark.svg",
+            "alt": ""
+          }
+        }
+      ]
+    }
+  ]
 }

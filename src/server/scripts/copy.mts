@@ -5,7 +5,10 @@ const ADMIN = './node_modules/@patrik_hajek/admin/';
 
 const FILES = [
   '.husky',
-  'src/assets',
+  'src/assets/css',
+  'src/assets/fonts',
+  'src/assets/images',
+  'src/assets/app.json',
   'src/components',
   'src/composables',
   'src/layouts',
