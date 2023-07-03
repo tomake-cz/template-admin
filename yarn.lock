@@ -798,10 +798,10 @@
     ufo "^1.1.2"
     uncrypto "^0.1.2"
 
-"@patrik_hajek/admin@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@patrik_hajek/admin/-/admin-1.1.1.tgz#d4c1fa1a4ea86c66ab1767470ea918ab2a86f153"
-  integrity sha512-UO+eAx5Qq0QGogIhF2SJ8OOy/Sh7/H6nmYC/3B5jDD9itmPPd9mVHfSbVcBZtX0xCVF20gojAhl1KIx5IEA/zQ==
+"@patrik_hajek/admin@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@patrik_hajek/admin/-/admin-1.1.2.tgz#9a9d892f650a50503ff8395bb1f5bee54eba57c9"
+  integrity sha512-189t7h1w84Fr6xaWupBkLcfPMKRhEO9TSV2qyPimgAedPMtyeZ/b3H72H6ne5mESy1DveG1Ly7kT7dwC8GlxXQ==
   dependencies:
     "@pinia/nuxt" "^0.4.11"
     "@prisma/client" "^4.14.0"
