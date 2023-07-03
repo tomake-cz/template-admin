@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model View {
+  id         Int       @id @default(autoincrement())
+  isEditable Boolean   @default(true)
+  name       String
+  modelName  String
+  sortName   String    @default("none")
+  sortDir    String    @default("asc")
+  filters    Filter[]
+  keys       ViewKey[]
+
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @default(now()) @updatedAt
+
+  @@unique([name, modelName])
+}
+
+model Filter {
+  id         String
+  key        String
+  type       String
+  constraint String
+  value      String @default("")
+
+  View   View @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId Int
+
+  @@unique([id, viewId])
+}
+
+model ViewKey {
+  id      Int     @id @default(autoincrement())
+  name    String
+  type    String
+  enabled Boolean @default(true)
+  View    View    @relation(fields: [viewId], references: [id], onDelete: Cascade)
+  viewId  Int
+
+  @@unique([name, viewId])
+}
+
+model File {
+  id        Int      @id @default(autoincrement())
+  bytes     Bytes
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  assetId   Int      @unique
+  Asset     Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+}
+
+model Asset {
+  id        Int     @id @default(autoincrement())
+  title     String
+  name      String
+  url       String
+  blurhash  String?
+  extension String
+  size      Int
+  type      String
+  file      File?
+  timestamp String
+
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @default(now()) @updatedAt
+  notes       String   @default("")
+
+  singleImageId  Int?            @unique
+  SingleImage    SingleRevision? @relation("image", fields: [singleImageId], references: [id])
+  singleImagesId Int?
+  SingleImages   SingleRevision? @relation("images", fields: [singleImagesId], references: [id])
+
+  @@unique([name, timestamp])
+}
+
+model Single {
+  id         Int      @id @default(0)
+  dateUpload DateTime @default(now())
+  dateExpire DateTime @default(now()) @updatedAt
+  notes      String?
+  state      Boolean  @default(true)
+
+  singleRevisionId Int?            @unique
+  ActiveRevision   SingleRevision? @relation(fields: [singleRevisionId], references: [id])
+}
+
+model SingleRevision {
+  id      Int      @id @default(autoincrement())
+  name    String?
+  email   String?
+  number  Int?
+  image   Asset?   @relation("image")
+  images  Asset[]  @relation("images")
+  persons Person[]
+
+  dateCreated DateTime @default(now())
+
+  revisionName String
+  Single       Single?
+}
+
+model Person {
+  id        Int            @id @default(autoincrement())
+  firstname String
+  lastname  String
+  email     String
+  phone     String
+  Single    SingleRevision @relation(fields: [singleId], references: [id])
+  singleId  Int
+}
+
+model Multi {
+  id    Int     @id @default(autoincrement())
+  notes String?
+  state Boolean @default(true)
+
+  MultiRevision    MultiRevision[] @relation("revisions")
+  activeRevisionId Int?            @unique
+  ActiveRevision   MultiRevision?  @relation("activeRevision", fields: [activeRevisionId], references: [id])
+}
+
+model MultiRevision {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+
+  dateUpload  DateTime @default(now())
+  dateExpire  DateTime @default(now()) @updatedAt
+  dateCreated DateTime @default(now())
+
+  revisionName        String
+  multiId             Int
+  Multi               Multi  @relation("revisions", fields: [multiId], references: [id], onDelete: Cascade)
+  ActiveRevisionMulti Multi? @relation("activeRevision")
+}

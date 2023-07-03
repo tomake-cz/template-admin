@@ -3,10 +3,16 @@ node_modules
 .nuxt
 .nitro
 .cache
-.husky
 .output
 .env
 dist
+.husky
 .prettierignore
 *.lock
 *.txt
+*.prisma
+*.sql
+*.svg
+.npmrc
+src/assets/fonts
+src/assets/images

@@ -1,8 +1,10 @@
+import './src/env';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'TOMAKE Template Client',
+      title: 'TOMAKER Template',
       link: [
         {
           rel: 'icon',
@@ -25,21 +27,40 @@ export default defineNuxtConfig({
     },
   },
   srcDir: 'src/',
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-headlessui'],
+  experimental: {
+    renderJsonPayloads: false,
+  },
+  modules: [
+    '@nuxtjs/tailwindcss',
+    [
+      '@pinia/nuxt',
+      {
+        autoImports: ['defineStore', 'storeToRefs'],
+      },
+    ],
+    '@nuxtjs/google-fonts',
+    '@vue-macros/nuxt',
+    '@vueuse/nuxt',
+    'nuxt-headlessui',
+  ],
+  // imports: {
+  //   dirs: ['./composables', './stores'],
+  // },
   css: ['~/assets/css/main.css'],
+  build: {
+    transpile: ['trpc-nuxt'],
+  },
   typescript: {
+    strict: true,
     shim: false,
   },
   tailwindcss: {
     cssPath: '~/assets/css/main.css',
     configPath: 'tailwind.config.js',
   },
-  build: {
-    transpile: ['trpc-nuxt'],
-  },
-  runtimeConfig: {
-    public: {
-      NUXT_PUBLIC_TRPC_ENDPOINT: process.env.NUXT_PUBLIC_TRPC_ENDPOINT,
+  googleFonts: {
+    families: {
+      Montserrat: true,
     },
   },
 });

@@ -1,3 +1,70 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'GothamRounded';
+  src: url('@/assets/fonts/gotham-rounded/GothamRounded-Book.otf')
+      format('opentype'),
+    url('@/assets/fonts/gotham-rounded/GothamRoundedBook_21018.ttf')
+      format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GothamRounded';
+  src: url('@/assets/fonts/gotham-rounded/GothamRounded-Bold.otf')
+      format('opentype'),
+    url('@/assets/fonts/gotham-rounded/GothamRoundedBold_21016.ttf')
+      format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@layer base {
+  input,
+  textarea {
+    @apply focus:outline-none;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='datetime-local'] {
+    @apply relative;
+  }
+  input[type='datetime-local']::-webkit-calendar-picker-indicator {
+    @apply absolute inset-0 h-full w-full cursor-pointer bg-transparent p-0 text-transparent opacity-0;
+  }
+}
+
+@layer components {
+  .input {
+    @apply rounded-xl border-[3px] border-solid border-gray-dark bg-gray-light p-3;
+  }
+}
+
+@layer utilities {
+  .icon-gray-lighter {
+    filter: saturate(100%) brightness(0) invert(98%) sepia(4%) saturate(305%)
+      hue-rotate(283deg) brightness(113%) contrast(88%);
+  }
+
+  .icon-gray-dark {
+    filter: saturate(100%) brightness(0) invert(100%) sepia(1%) saturate(3743%)
+      hue-rotate(41deg) brightness(120%) contrast(63%);
+  }
+
+  .icon-gray-darker {
+    filter: saturate(100%) brightness(0) invert(68%) sepia(0%) saturate(110%)
+      hue-rotate(227deg) brightness(105%) contrast(91%);
+  }
+
+  .icon-site-2 {
+    filter: saturate(100%) brightness(0) invert(21%) sepia(94%) saturate(5781%)
+      hue-rotate(236deg) brightness(83%) contrast(89%);
+  }
+}

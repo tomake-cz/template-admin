@@ -1,3 +1,36 @@
+declare module 'prisma/script' {
+  import { PrismaClient } from '@prisma/client';
+  export const prisma: PrismaClient<
+    import('.prisma/client').Prisma.PrismaClientOptions,
+    never,
+    | import('.prisma/client').Prisma.RejectOnNotFound
+    | import('.prisma/client').Prisma.RejectPerOperation
+    | undefined
+  >;
+}
+declare module 'utils/group' {
+  import { PrismaPromise } from '@prisma/client';
+  type Obj = {
+    id?: number;
+  } & Record<string, unknown>;
+  export const updateGroup: <T extends Obj>(
+    group: T[] | undefined,
+    create: (obj: T) => PrismaPromise<T>,
+  ) => Promise<void>;
+}
+declare module 'utils/revision' {
+  export const getRevisionName: () => string;
+  type Model = {
+    ActiveRevision: Record<string, unknown> | null;
+    [key: string]: unknown;
+  };
+  export const revisionMerge: <T extends Model>(
+    model: T,
+  ) => T['ActiveRevision'] & Omit<T, 'ActiveRevision'>;
+}
+declare module 'utils/slug' {
+  export const slugify: (str: string | undefined) => string | undefined;
+}
 declare module 'trpc/context' {
   import { inferAsyncReturnType } from '@trpc/server';
   /**
@@ -174,16 +207,6 @@ declare module 'trpc/trpc' {
       _meta: object;
     },
     TNewParams
-  >;
-}
-declare module 'prisma/script' {
-  import { PrismaClient } from '@prisma/client';
-  export const prisma: PrismaClient<
-    import('.prisma/client').Prisma.PrismaClientOptions,
-    never,
-    | import('.prisma/client').Prisma.RejectOnNotFound
-    | import('.prisma/client').Prisma.RejectPerOperation
-    | undefined
   >;
 }
 declare module 'trpc/routers/asset' {
@@ -524,7 +547,7 @@ declare module 'trpc/routers/asset' {
     }
   >;
 }
-declare module 'util/asset' {
+declare module 'utils/asset' {
   import { Prisma } from '@prisma/client';
   import { z } from 'zod';
   import { AssetInput } from 'trpc/routers/asset';
@@ -539,20 +562,9 @@ declare module 'util/asset' {
     id?: number,
   ) => Promise<void>;
 }
-declare module 'util/group' {
-  import { Prisma, PrismaPromise } from '@prisma/client';
-  type Obj = {
-    id?: number;
-  } & Record<string, unknown>;
-  export const updateGroup: <T extends Obj>(
-    group: T[] | undefined,
-    del: (ids: number[]) => Promise<Prisma.BatchPayload>,
-    upsert: (obj: T) => PrismaPromise<T>,
-  ) => Promise<void>;
-}
 declare module 'trpc/routers/single' {
   import { z } from 'zod';
-  export const SINGLE_INCLUDE: {
+  export const SINGLE_REV_INCLUDE: {
     persons: true;
     image: true;
     images: true;
@@ -655,12 +667,10 @@ declare module 'trpc/routers/single' {
         | ({
             id: number;
             name: string | null;
-            text: string | null;
+            email: string | null;
             number: number | null;
-            dateUpload: Date;
-            dateExpire: Date;
-            notes: string | null;
-            state: boolean;
+            dateCreated: Date;
+            revisionName: string;
           } & {
             image: {
               id: number;
@@ -702,8 +712,210 @@ declare module 'trpc/routers/single' {
               phone: string;
               singleId: number;
             }[];
-          })
+          } & Omit<
+              {
+                id: number;
+                dateUpload: Date;
+                dateExpire: Date;
+                notes: string | null;
+                state: boolean;
+                singleRevisionId: number | null;
+              } & {
+                ActiveRevision:
+                  | ({
+                      id: number;
+                      name: string | null;
+                      email: string | null;
+                      number: number | null;
+                      dateCreated: Date;
+                      revisionName: string;
+                    } & {
+                      image: {
+                        id: number;
+                        title: string;
+                        name: string;
+                        url: string;
+                        blurhash: string | null;
+                        extension: string;
+                        size: number;
+                        type: string;
+                        timestamp: string;
+                        dateCreated: Date;
+                        dateUpdated: Date;
+                        notes: string;
+                        singleImageId: number | null;
+                        singleImagesId: number | null;
+                      } | null;
+                      images: {
+                        id: number;
+                        title: string;
+                        name: string;
+                        url: string;
+                        blurhash: string | null;
+                        extension: string;
+                        size: number;
+                        type: string;
+                        timestamp: string;
+                        dateCreated: Date;
+                        dateUpdated: Date;
+                        notes: string;
+                        singleImageId: number | null;
+                        singleImagesId: number | null;
+                      }[];
+                      persons: {
+                        id: number;
+                        firstname: string;
+                        lastname: string;
+                        email: string;
+                        phone: string;
+                        singleId: number;
+                      }[];
+                    })
+                  | null;
+              },
+              'ActiveRevision'
+            >)
         | null
+      >;
+      getRevisions: import('@trpc/server').BuildProcedure<
+        'query',
+        {
+          _config: import('@trpc/server').RootConfig<{
+            ctx: {};
+            meta: object;
+            errorShape: {
+              data: {
+                code:
+                  | 'PARSE_ERROR'
+                  | 'BAD_REQUEST'
+                  | 'INTERNAL_SERVER_ERROR'
+                  | 'UNAUTHORIZED'
+                  | 'FORBIDDEN'
+                  | 'NOT_FOUND'
+                  | 'METHOD_NOT_SUPPORTED'
+                  | 'TIMEOUT'
+                  | 'CONFLICT'
+                  | 'PRECONDITION_FAILED'
+                  | 'PAYLOAD_TOO_LARGE'
+                  | 'UNPROCESSABLE_CONTENT'
+                  | 'TOO_MANY_REQUESTS'
+                  | 'CLIENT_CLOSED_REQUEST';
+                httpStatus: number;
+                path?: string | undefined;
+                stack?: string | undefined;
+              };
+              message: string;
+              code: import('@trpc/server/dist/rpc').TRPC_ERROR_CODE_NUMBER;
+            };
+            transformer: import('@trpc/server').DefaultDataTransformer;
+          }>;
+          _ctx_out: {};
+          _input_in: typeof import('@trpc/server').unsetMarker;
+          _input_out: typeof import('@trpc/server').unsetMarker;
+          _output_in: typeof import('@trpc/server').unsetMarker;
+          _output_out: typeof import('@trpc/server').unsetMarker;
+          _meta: object;
+        },
+        {
+          active: {
+            id: number;
+            name: string | null;
+            email: string | null;
+            number: number | null;
+            dateCreated: Date;
+            revisionName: string;
+          } & {
+            image: {
+              id: number;
+              title: string;
+              name: string;
+              url: string;
+              blurhash: string | null;
+              extension: string;
+              size: number;
+              type: string;
+              timestamp: string;
+              dateCreated: Date;
+              dateUpdated: Date;
+              notes: string;
+              singleImageId: number | null;
+              singleImagesId: number | null;
+            } | null;
+            images: {
+              id: number;
+              title: string;
+              name: string;
+              url: string;
+              blurhash: string | null;
+              extension: string;
+              size: number;
+              type: string;
+              timestamp: string;
+              dateCreated: Date;
+              dateUpdated: Date;
+              notes: string;
+              singleImageId: number | null;
+              singleImagesId: number | null;
+            }[];
+            persons: {
+              id: number;
+              firstname: string;
+              lastname: string;
+              email: string;
+              phone: string;
+              singleId: number;
+            }[];
+          };
+          all: ({
+            id: number;
+            name: string | null;
+            email: string | null;
+            number: number | null;
+            dateCreated: Date;
+            revisionName: string;
+          } & {
+            image: {
+              id: number;
+              title: string;
+              name: string;
+              url: string;
+              blurhash: string | null;
+              extension: string;
+              size: number;
+              type: string;
+              timestamp: string;
+              dateCreated: Date;
+              dateUpdated: Date;
+              notes: string;
+              singleImageId: number | null;
+              singleImagesId: number | null;
+            } | null;
+            images: {
+              id: number;
+              title: string;
+              name: string;
+              url: string;
+              blurhash: string | null;
+              extension: string;
+              size: number;
+              type: string;
+              timestamp: string;
+              dateCreated: Date;
+              dateUpdated: Date;
+              notes: string;
+              singleImageId: number | null;
+              singleImagesId: number | null;
+            }[];
+            persons: {
+              id: number;
+              firstname: string;
+              lastname: string;
+              email: string;
+              phone: string;
+              singleId: number;
+            }[];
+          })[];
+        } | null
       >;
       update: import('@trpc/server').BuildProcedure<
         'mutation',
@@ -739,140 +951,100 @@ declare module 'trpc/routers/single' {
           }>;
           _meta: object;
           _ctx_out: {};
-          _input_in: {
-            name?: string | undefined;
-            text?: string | undefined;
-            number?: number | undefined;
-            persons?:
-              | {
-                  id?: number | undefined;
-                  firstname?: string | undefined;
-                  lastname?: string | undefined;
-                  email?: string | undefined;
-                  phone?: string | undefined;
-                }[]
-              | undefined;
-            image?:
-              | {
-                  type: string;
-                  name: string;
-                  bytes: number[];
-                  size: number;
-                  timestamp: string | null;
-                  id?: number | undefined;
-                  blurhash?: string | null | undefined;
-                }
-              | undefined;
-            images?:
-              | {
-                  type: string;
-                  name: string;
-                  bytes: number[];
-                  size: number;
-                  timestamp: string | null;
-                  id?: number | undefined;
-                  blurhash?: string | null | undefined;
-                }[]
-              | undefined;
-            dateUpload?: string | undefined;
-            dateExpire?: string | undefined;
-            notes?: string | undefined;
-            state?: boolean | undefined;
-          };
-          _input_out: {
-            name?: string | undefined;
-            text?: string | undefined;
-            number?: number | undefined;
-            persons?:
-              | {
-                  id?: number | undefined;
-                  firstname?: string | undefined;
-                  lastname?: string | undefined;
-                  email?: string | undefined;
-                  phone?: string | undefined;
-                }[]
-              | undefined;
-            image?:
-              | {
-                  type: string;
-                  name: string;
-                  bytes: number[];
-                  size: number;
-                  timestamp: string | null;
-                  id?: number | undefined;
-                  blurhash?: string | null | undefined;
-                }
-              | undefined;
-            images?:
-              | {
-                  type: string;
-                  name: string;
-                  bytes: number[];
-                  size: number;
-                  timestamp: string | null;
-                  id?: number | undefined;
-                  blurhash?: string | null | undefined;
-                }[]
-              | undefined;
-            dateUpload?: string | undefined;
-            dateExpire?: string | undefined;
-            notes?: string | undefined;
-            state?: boolean | undefined;
-          };
+          _input_in: [
+            number,
+            {
+              dateUpload?: string | undefined;
+              dateExpire?: string | undefined;
+              notes?: string | undefined;
+              state?: boolean | undefined;
+            },
+            {
+              name?: string | undefined;
+              email?: string | undefined;
+              number?: number | undefined;
+              persons?:
+                | {
+                    id?: number | undefined;
+                    firstname?: string | undefined;
+                    lastname?: string | undefined;
+                    email?: string | undefined;
+                    phone?: string | undefined;
+                  }[]
+                | undefined;
+              image?:
+                | {
+                    type: string;
+                    name: string;
+                    bytes: number[];
+                    size: number;
+                    timestamp: string | null;
+                    id?: number | undefined;
+                    blurhash?: string | null | undefined;
+                  }
+                | undefined;
+              images?:
+                | {
+                    type: string;
+                    name: string;
+                    bytes: number[];
+                    size: number;
+                    timestamp: string | null;
+                    id?: number | undefined;
+                    blurhash?: string | null | undefined;
+                  }[]
+                | undefined;
+            },
+          ];
+          _input_out: [
+            number,
+            {
+              dateUpload?: string | undefined;
+              dateExpire?: string | undefined;
+              notes?: string | undefined;
+              state?: boolean | undefined;
+            },
+            {
+              name?: string | undefined;
+              email?: string | undefined;
+              number?: number | undefined;
+              persons?:
+                | {
+                    id?: number | undefined;
+                    firstname?: string | undefined;
+                    lastname?: string | undefined;
+                    email?: string | undefined;
+                    phone?: string | undefined;
+                  }[]
+                | undefined;
+              image?:
+                | {
+                    type: string;
+                    name: string;
+                    bytes: number[];
+                    size: number;
+                    timestamp: string | null;
+                    id?: number | undefined;
+                    blurhash?: string | null | undefined;
+                  }
+                | undefined;
+              images?:
+                | {
+                    type: string;
+                    name: string;
+                    bytes: number[];
+                    size: number;
+                    timestamp: string | null;
+                    id?: number | undefined;
+                    blurhash?: string | null | undefined;
+                  }[]
+                | undefined;
+            },
+          ];
           _output_in: typeof import('@trpc/server').unsetMarker;
           _output_out: typeof import('@trpc/server').unsetMarker;
         },
-        {
-          id: number;
-          name: string | null;
-          text: string | null;
-          number: number | null;
-          dateUpload: Date;
-          dateExpire: Date;
-          notes: string | null;
-          state: boolean;
-        } & {
-          image: {
-            id: number;
-            title: string;
-            name: string;
-            url: string;
-            blurhash: string | null;
-            extension: string;
-            size: number;
-            type: string;
-            timestamp: string;
-            dateCreated: Date;
-            dateUpdated: Date;
-            notes: string;
-            singleImageId: number | null;
-            singleImagesId: number | null;
-          } | null;
-          images: {
-            id: number;
-            title: string;
-            name: string;
-            url: string;
-            blurhash: string | null;
-            extension: string;
-            size: number;
-            type: string;
-            timestamp: string;
-            dateCreated: Date;
-            dateUpdated: Date;
-            notes: string;
-            singleImageId: number | null;
-            singleImagesId: number | null;
-          }[];
-          persons: {
-            id: number;
-            firstname: string;
-            lastname: string;
-            email: string;
-            phone: string;
-            singleId: number;
-          }[];
-        }
+        void
       >;
     }
   >;
@@ -948,15 +1120,36 @@ declare module 'trpc/routers/multi' {
           _output_in: typeof import('@trpc/server').unsetMarker;
           _output_out: typeof import('@trpc/server').unsetMarker;
         },
-        {
-          id: number;
-          title: string;
-          description: string;
-          dateUpload: Date;
-          dateExpire: Date;
-          notes: string | null;
-          state: boolean;
-        } | null
+        | ({
+            id: number;
+            title: string;
+            description: string;
+            dateUpload: Date;
+            dateExpire: Date;
+            dateCreated: Date;
+            revisionName: string;
+            multiId: number;
+          } & Omit<
+            {
+              id: number;
+              notes: string | null;
+              state: boolean;
+              activeRevisionId: number | null;
+            } & {
+              ActiveRevision: {
+                id: number;
+                title: string;
+                description: string;
+                dateUpload: Date;
+                dateExpire: Date;
+                dateCreated: Date;
+                revisionName: string;
+                multiId: number;
+              } | null;
+            },
+            'ActiveRevision'
+          >)
+        | null
       >;
       getAll: import('@trpc/server').BuildProcedure<
         'query',
@@ -997,15 +1190,35 @@ declare module 'trpc/routers/multi' {
           _output_out: typeof import('@trpc/server').unsetMarker;
           _meta: object;
         },
-        {
+        ({
           id: number;
           title: string;
           description: string;
           dateUpload: Date;
           dateExpire: Date;
-          notes: string | null;
-          state: boolean;
-        }[]
+          dateCreated: Date;
+          revisionName: string;
+          multiId: number;
+        } & Omit<
+          {
+            id: number;
+            notes: string | null;
+            state: boolean;
+            activeRevisionId: number | null;
+          } & {
+            ActiveRevision: {
+              id: number;
+              title: string;
+              description: string;
+              dateUpload: Date;
+              dateExpire: Date;
+              dateCreated: Date;
+              revisionName: string;
+              multiId: number;
+            } | null;
+          },
+          'ActiveRevision'
+        >)[]
       >;
       upsert: import('@trpc/server').BuildProcedure<
         'mutation',
@@ -1041,38 +1254,40 @@ declare module 'trpc/routers/multi' {
           }>;
           _meta: object;
           _ctx_out: {};
-          _input_in: {
-            id?: number | undefined;
-            title?: string | undefined;
-            description?: string | undefined;
-            dateUpload?: string | undefined;
-            dateExpire?: string | undefined;
-            notes?: string | undefined;
-            state?: boolean | undefined;
-          };
-          _input_out: {
-            id?: number | undefined;
-            title?: string | undefined;
-            description?: string | undefined;
-            dateUpload?: string | undefined;
-            dateExpire?: string | undefined;
-            notes?: string | undefined;
-            state?: boolean | undefined;
-          };
+          _input_in: [
+            {
+              id: number;
+              notes?: string | undefined;
+              state?: boolean | undefined;
+            },
+            {
+              title: string;
+              description: string;
+              revisionName?: string | undefined;
+              dateUpload?: string | undefined;
+              dateExpire?: string | undefined;
+            },
+          ];
+          _input_out: [
+            {
+              id: number;
+              notes?: string | undefined;
+              state?: boolean | undefined;
+            },
+            {
+              title: string;
+              description: string;
+              revisionName?: string | undefined;
+              dateUpload?: string | undefined;
+              dateExpire?: string | undefined;
+            },
+          ];
           _output_in: typeof import('@trpc/server').unsetMarker;
           _output_out: typeof import('@trpc/server').unsetMarker;
         },
-        {
-          id: number;
-          title: string;
-          description: string;
-          dateUpload: Date;
-          dateExpire: Date;
-          notes: string | null;
-          state: boolean;
-        }
+        void
       >;
-      deleteOne: import('@trpc/server').BuildProcedure<
+      deleteMany: import('@trpc/server').BuildProcedure<
         'mutation',
         {
           _config: import('@trpc/server').RootConfig<{
@@ -1113,12 +1328,9 @@ declare module 'trpc/routers/multi' {
         },
         {
           id: number;
-          title: string;
-          description: string;
-          dateUpload: Date;
-          dateExpire: Date;
           notes: string | null;
           state: boolean;
+          activeRevisionId: number | null;
         }[]
       >;
       toggleMany: import('@trpc/server').BuildProcedure<
@@ -1162,12 +1374,9 @@ declare module 'trpc/routers/multi' {
         },
         {
           id: number;
-          title: string;
-          description: string;
-          dateUpload: Date;
-          dateExpire: Date;
           notes: string | null;
           state: boolean;
+          activeRevisionId: number | null;
         }[]
       >;
     }
@@ -2011,12 +2220,10 @@ declare module 'trpc/routers/index' {
             | ({
                 id: number;
                 name: string | null;
-                text: string | null;
+                email: string | null;
                 number: number | null;
-                dateUpload: Date;
-                dateExpire: Date;
-                notes: string | null;
-                state: boolean;
+                dateCreated: Date;
+                revisionName: string;
               } & {
                 image: {
                   id: number;
@@ -2058,8 +2265,210 @@ declare module 'trpc/routers/index' {
                   phone: string;
                   singleId: number;
                 }[];
-              })
+              } & Omit<
+                  {
+                    id: number;
+                    dateUpload: Date;
+                    dateExpire: Date;
+                    notes: string | null;
+                    state: boolean;
+                    singleRevisionId: number | null;
+                  } & {
+                    ActiveRevision:
+                      | ({
+                          id: number;
+                          name: string | null;
+                          email: string | null;
+                          number: number | null;
+                          dateCreated: Date;
+                          revisionName: string;
+                        } & {
+                          image: {
+                            id: number;
+                            title: string;
+                            name: string;
+                            url: string;
+                            blurhash: string | null;
+                            extension: string;
+                            size: number;
+                            type: string;
+                            timestamp: string;
+                            dateCreated: Date;
+                            dateUpdated: Date;
+                            notes: string;
+                            singleImageId: number | null;
+                            singleImagesId: number | null;
+                          } | null;
+                          images: {
+                            id: number;
+                            title: string;
+                            name: string;
+                            url: string;
+                            blurhash: string | null;
+                            extension: string;
+                            size: number;
+                            type: string;
+                            timestamp: string;
+                            dateCreated: Date;
+                            dateUpdated: Date;
+                            notes: string;
+                            singleImageId: number | null;
+                            singleImagesId: number | null;
+                          }[];
+                          persons: {
+                            id: number;
+                            firstname: string;
+                            lastname: string;
+                            email: string;
+                            phone: string;
+                            singleId: number;
+                          }[];
+                        })
+                      | null;
+                  },
+                  'ActiveRevision'
+                >)
             | null
+          >;
+          getRevisions: import('@trpc/server').BuildProcedure<
+            'query',
+            {
+              _config: import('@trpc/server').RootConfig<{
+                ctx: {};
+                meta: object;
+                errorShape: {
+                  data: {
+                    code:
+                      | 'PARSE_ERROR'
+                      | 'BAD_REQUEST'
+                      | 'INTERNAL_SERVER_ERROR'
+                      | 'UNAUTHORIZED'
+                      | 'FORBIDDEN'
+                      | 'NOT_FOUND'
+                      | 'METHOD_NOT_SUPPORTED'
+                      | 'TIMEOUT'
+                      | 'CONFLICT'
+                      | 'PRECONDITION_FAILED'
+                      | 'PAYLOAD_TOO_LARGE'
+                      | 'UNPROCESSABLE_CONTENT'
+                      | 'TOO_MANY_REQUESTS'
+                      | 'CLIENT_CLOSED_REQUEST';
+                    httpStatus: number;
+                    path?: string | undefined;
+                    stack?: string | undefined;
+                  };
+                  message: string;
+                  code: import('@trpc/server/dist/rpc').TRPC_ERROR_CODE_NUMBER;
+                };
+                transformer: import('@trpc/server').DefaultDataTransformer;
+              }>;
+              _ctx_out: {};
+              _input_in: typeof import('@trpc/server').unsetMarker;
+              _input_out: typeof import('@trpc/server').unsetMarker;
+              _output_in: typeof import('@trpc/server').unsetMarker;
+              _output_out: typeof import('@trpc/server').unsetMarker;
+              _meta: object;
+            },
+            {
+              active: {
+                id: number;
+                name: string | null;
+                email: string | null;
+                number: number | null;
+                dateCreated: Date;
+                revisionName: string;
+              } & {
+                image: {
+                  id: number;
+                  title: string;
+                  name: string;
+                  url: string;
+                  blurhash: string | null;
+                  extension: string;
+                  size: number;
+                  type: string;
+                  timestamp: string;
+                  dateCreated: Date;
+                  dateUpdated: Date;
+                  notes: string;
+                  singleImageId: number | null;
+                  singleImagesId: number | null;
+                } | null;
+                images: {
+                  id: number;
+                  title: string;
+                  name: string;
+                  url: string;
+                  blurhash: string | null;
+                  extension: string;
+                  size: number;
+                  type: string;
+                  timestamp: string;
+                  dateCreated: Date;
+                  dateUpdated: Date;
+                  notes: string;
+                  singleImageId: number | null;
+                  singleImagesId: number | null;
+                }[];
+                persons: {
+                  id: number;
+                  firstname: string;
+                  lastname: string;
+                  email: string;
+                  phone: string;
+                  singleId: number;
+                }[];
+              };
+              all: ({
+                id: number;
+                name: string | null;
+                email: string | null;
+                number: number | null;
+                dateCreated: Date;
+                revisionName: string;
+              } & {
+                image: {
+                  id: number;
+                  title: string;
+                  name: string;
+                  url: string;
+                  blurhash: string | null;
+                  extension: string;
+                  size: number;
+                  type: string;
+                  timestamp: string;
+                  dateCreated: Date;
+                  dateUpdated: Date;
+                  notes: string;
+                  singleImageId: number | null;
+                  singleImagesId: number | null;
+                } | null;
+                images: {
+                  id: number;
+                  title: string;
+                  name: string;
+                  url: string;
+                  blurhash: string | null;
+                  extension: string;
+                  size: number;
+                  type: string;
+                  timestamp: string;
+                  dateCreated: Date;
+                  dateUpdated: Date;
+                  notes: string;
+                  singleImageId: number | null;
+                  singleImagesId: number | null;
+                }[];
+                persons: {
+                  id: number;
+                  firstname: string;
+                  lastname: string;
+                  email: string;
+                  phone: string;
+                  singleId: number;
+                }[];
+              })[];
+            } | null
           >;
           update: import('@trpc/server').BuildProcedure<
             'mutation',
@@ -2095,140 +2504,100 @@ declare module 'trpc/routers/index' {
               }>;
               _meta: object;
               _ctx_out: {};
-              _input_in: {
-                name?: string | undefined;
-                text?: string | undefined;
-                number?: number | undefined;
-                persons?:
-                  | {
-                      id?: number | undefined;
-                      firstname?: string | undefined;
-                      lastname?: string | undefined;
-                      email?: string | undefined;
-                      phone?: string | undefined;
-                    }[]
-                  | undefined;
-                image?:
-                  | {
-                      type: string;
-                      name: string;
-                      bytes: number[];
-                      size: number;
-                      timestamp: string | null;
-                      id?: number | undefined;
-                      blurhash?: string | null | undefined;
-                    }
-                  | undefined;
-                images?:
-                  | {
-                      type: string;
-                      name: string;
-                      bytes: number[];
-                      size: number;
-                      timestamp: string | null;
-                      id?: number | undefined;
-                      blurhash?: string | null | undefined;
-                    }[]
-                  | undefined;
-                dateUpload?: string | undefined;
-                dateExpire?: string | undefined;
-                notes?: string | undefined;
-                state?: boolean | undefined;
-              };
-              _input_out: {
-                name?: string | undefined;
-                text?: string | undefined;
-                number?: number | undefined;
-                persons?:
-                  | {
-                      id?: number | undefined;
-                      firstname?: string | undefined;
-                      lastname?: string | undefined;
-                      email?: string | undefined;
-                      phone?: string | undefined;
-                    }[]
-                  | undefined;
-                image?:
-                  | {
-                      type: string;
-                      name: string;
-                      bytes: number[];
-                      size: number;
-                      timestamp: string | null;
-                      id?: number | undefined;
-                      blurhash?: string | null | undefined;
-                    }
-                  | undefined;
-                images?:
-                  | {
-                      type: string;
-                      name: string;
-                      bytes: number[];
-                      size: number;
-                      timestamp: string | null;
-                      id?: number | undefined;
-                      blurhash?: string | null | undefined;
-                    }[]
-                  | undefined;
-                dateUpload?: string | undefined;
-                dateExpire?: string | undefined;
-                notes?: string | undefined;
-                state?: boolean | undefined;
-              };
+              _input_in: [
+                number,
+                {
+                  dateUpload?: string | undefined;
+                  dateExpire?: string | undefined;
+                  notes?: string | undefined;
+                  state?: boolean | undefined;
+                },
+                {
+                  name?: string | undefined;
+                  email?: string | undefined;
+                  number?: number | undefined;
+                  persons?:
+                    | {
+                        id?: number | undefined;
+                        firstname?: string | undefined;
+                        lastname?: string | undefined;
+                        email?: string | undefined;
+                        phone?: string | undefined;
+                      }[]
+                    | undefined;
+                  image?:
+                    | {
+                        type: string;
+                        name: string;
+                        bytes: number[];
+                        size: number;
+                        timestamp: string | null;
+                        id?: number | undefined;
+                        blurhash?: string | null | undefined;
+                      }
+                    | undefined;
+                  images?:
+                    | {
+                        type: string;
+                        name: string;
+                        bytes: number[];
+                        size: number;
+                        timestamp: string | null;
+                        id?: number | undefined;
+                        blurhash?: string | null | undefined;
+                      }[]
+                    | undefined;
+                },
+              ];
+              _input_out: [
+                number,
+                {
+                  dateUpload?: string | undefined;
+                  dateExpire?: string | undefined;
+                  notes?: string | undefined;
+                  state?: boolean | undefined;
+                },
+                {
+                  name?: string | undefined;
+                  email?: string | undefined;
+                  number?: number | undefined;
+                  persons?:
+                    | {
+                        id?: number | undefined;
+                        firstname?: string | undefined;
+                        lastname?: string | undefined;
+                        email?: string | undefined;
+                        phone?: string | undefined;
+                      }[]
+                    | undefined;
+                  image?:
+                    | {
+                        type: string;
+                        name: string;
+                        bytes: number[];
+                        size: number;
+                        timestamp: string | null;
+                        id?: number | undefined;
+                        blurhash?: string | null | undefined;
+                      }
+                    | undefined;
+                  images?:
+                    | {
+                        type: string;
+                        name: string;
+                        bytes: number[];
+                        size: number;
+                        timestamp: string | null;
+                        id?: number | undefined;
+                        blurhash?: string | null | undefined;
+                      }[]
+                    | undefined;
+                },
+              ];
               _output_in: typeof import('@trpc/server').unsetMarker;
               _output_out: typeof import('@trpc/server').unsetMarker;
             },
-            {
-              id: number;
-              name: string | null;
-              text: string | null;
-              number: number | null;
-              dateUpload: Date;
-              dateExpire: Date;
-              notes: string | null;
-              state: boolean;
-            } & {
-              image: {
-                id: number;
-                title: string;
-                name: string;
-                url: string;
-                blurhash: string | null;
-                extension: string;
-                size: number;
-                type: string;
-                timestamp: string;
-                dateCreated: Date;
-                dateUpdated: Date;
-                notes: string;
-                singleImageId: number | null;
-                singleImagesId: number | null;
-              } | null;
-              images: {
-                id: number;
-                title: string;
-                name: string;
-                url: string;
-                blurhash: string | null;
-                extension: string;
-                size: number;
-                type: string;
-                timestamp: string;
-                dateCreated: Date;
-                dateUpdated: Date;
-                notes: string;
-                singleImageId: number | null;
-                singleImagesId: number | null;
-              }[];
-              persons: {
-                id: number;
-                firstname: string;
-                lastname: string;
-                email: string;
-                phone: string;
-                singleId: number;
-              }[];
-            }
+            void
           >;
         }
       >;
@@ -2302,15 +2671,36 @@ declare module 'trpc/routers/index' {
               _output_in: typeof import('@trpc/server').unsetMarker;
               _output_out: typeof import('@trpc/server').unsetMarker;
             },
-            {
-              id: number;
-              title: string;
-              description: string;
-              dateUpload: Date;
-              dateExpire: Date;
-              notes: string | null;
-              state: boolean;
-            } | null
+            | ({
+                id: number;
+                title: string;
+                description: string;
+                dateUpload: Date;
+                dateExpire: Date;
+                dateCreated: Date;
+                revisionName: string;
+                multiId: number;
+              } & Omit<
+                {
+                  id: number;
+                  notes: string | null;
+                  state: boolean;
+                  activeRevisionId: number | null;
+                } & {
+                  ActiveRevision: {
+                    id: number;
+                    title: string;
+                    description: string;
+                    dateUpload: Date;
+                    dateExpire: Date;
+                    dateCreated: Date;
+                    revisionName: string;
+                    multiId: number;
+                  } | null;
+                },
+                'ActiveRevision'
+              >)
+            | null
           >;
           getAll: import('@trpc/server').BuildProcedure<
             'query',
@@ -2351,15 +2741,35 @@ declare module 'trpc/routers/index' {
               _output_out: typeof import('@trpc/server').unsetMarker;
               _meta: object;
             },
-            {
+            ({
               id: number;
               title: string;
               description: string;
               dateUpload: Date;
               dateExpire: Date;
-              notes: string | null;
-              state: boolean;
-            }[]
+              dateCreated: Date;
+              revisionName: string;
+              multiId: number;
+            } & Omit<
+              {
+                id: number;
+                notes: string | null;
+                state: boolean;
+                activeRevisionId: number | null;
+              } & {
+                ActiveRevision: {
+                  id: number;
+                  title: string;
+                  description: string;
+                  dateUpload: Date;
+                  dateExpire: Date;
+                  dateCreated: Date;
+                  revisionName: string;
+                  multiId: number;
+                } | null;
+              },
+              'ActiveRevision'
+            >)[]
           >;
           upsert: import('@trpc/server').BuildProcedure<
             'mutation',
@@ -2395,38 +2805,40 @@ declare module 'trpc/routers/index' {
               }>;
               _meta: object;
               _ctx_out: {};
-              _input_in: {
-                id?: number | undefined;
-                title?: string | undefined;
-                description?: string | undefined;
-                dateUpload?: string | undefined;
-                dateExpire?: string | undefined;
-                notes?: string | undefined;
-                state?: boolean | undefined;
-              };
-              _input_out: {
-                id?: number | undefined;
-                title?: string | undefined;
-                description?: string | undefined;
-                dateUpload?: string | undefined;
-                dateExpire?: string | undefined;
-                notes?: string | undefined;
-                state?: boolean | undefined;
-              };
+              _input_in: [
+                {
+                  id: number;
+                  notes?: string | undefined;
+                  state?: boolean | undefined;
+                },
+                {
+                  title: string;
+                  description: string;
+                  revisionName?: string | undefined;
+                  dateUpload?: string | undefined;
+                  dateExpire?: string | undefined;
+                },
+              ];
+              _input_out: [
+                {
+                  id: number;
+                  notes?: string | undefined;
+                  state?: boolean | undefined;
+                },
+                {
+                  title: string;
+                  description: string;
+                  revisionName?: string | undefined;
+                  dateUpload?: string | undefined;
+                  dateExpire?: string | undefined;
+                },
+              ];
               _output_in: typeof import('@trpc/server').unsetMarker;
               _output_out: typeof import('@trpc/server').unsetMarker;
             },
-            {
-              id: number;
-              title: string;
-              description: string;
-              dateUpload: Date;
-              dateExpire: Date;
-              notes: string | null;
-              state: boolean;
-            }
+            void
           >;
-          deleteOne: import('@trpc/server').BuildProcedure<
+          deleteMany: import('@trpc/server').BuildProcedure<
             'mutation',
             {
               _config: import('@trpc/server').RootConfig<{
@@ -2467,12 +2879,9 @@ declare module 'trpc/routers/index' {
             },
             {
               id: number;
-              title: string;
-              description: string;
-              dateUpload: Date;
-              dateExpire: Date;
               notes: string | null;
               state: boolean;
+              activeRevisionId: number | null;
             }[]
           >;
           toggleMany: import('@trpc/server').BuildProcedure<
@@ -2516,12 +2925,9 @@ declare module 'trpc/routers/index' {
             },
             {
               id: number;
-              title: string;
-              description: string;
-              dateUpload: Date;
-              dateExpire: Date;
               notes: string | null;
               state: boolean;
+              activeRevisionId: number | null;
             }[]
           >;
         }
