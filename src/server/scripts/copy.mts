@@ -3,6 +3,9 @@ import { cp, rmSync, readFile, writeFile } from 'fs';
 
 const ADMIN = './node_modules/@patrik_hajek/admin/';
 
+const ROUTERS = ['singleRouter', 'multiRouter', 'globalRouter'];
+const INDEX_ROUTER_PATH = './src/server/trpc/routers/index.ts';
+
 const FILES = [
   '.husky/pre-commit',
   'src/assets/css',
@@ -69,19 +72,16 @@ const promises = FILES.map((file) => {
 });
 await Promise.all(promises);
 
-const routers = ['singleRouter', 'multiRouter', 'globalRouter'];
-const indexRouterPath = './src/server/trpc/routers/index.ts';
-
-readFile(indexRouterPath, 'utf8', (err, data) => {
+readFile(INDEX_ROUTER_PATH, 'utf8', (err, data) => {
   if (err) {
     throw err;
   }
 
   const result = data.split('\n').filter((line) => {
-    return !new RegExp(routers.join('|')).test(line);
+    return !new RegExp(ROUTERS.join('|')).test(line);
   });
 
-  writeFile(indexRouterPath, result.join('\n'), 'utf8', (err) => {
+  writeFile(INDEX_ROUTER_PATH, result.join('\n'), 'utf8', (err) => {
     if (err) {
       throw err;
     }
