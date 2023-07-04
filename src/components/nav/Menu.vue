@@ -10,7 +10,7 @@ const { nav } = storeToRefs(useAppStore());
       </NuxtLink>
       <div>
         <SearchBar class="mb-6" />
-        <template v-for="group in nav" :key="group.id + group.title">
+        <template v-for="(group, i) in nav" :key="i">
           <NavGroup :group="group" />
         </template>
       </div>
