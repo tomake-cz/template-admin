@@ -125,9 +125,10 @@ export const useAppStore = defineStore('app', {
         state.defaultValues.record.name
       );
     },
-    firstNestedLink: (state) => {
+    getFirstNestedLink: (state) => (parentUrl: string) => {
       return (
-        state.nav[0].links[0]?.groups?.[0].links[0] ?? {
+        state.nav[0].links.find((x) => x.url === parentUrl)?.groups?.[0]
+          .links[0] ?? {
           title: 'No Link',
           url: '/',
         }

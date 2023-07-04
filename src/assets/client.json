@@ -21,24 +21,12 @@
               "url": "/hlavni-strana",
               "links": [
                 {
-                  "title": "Mutace",
-                  "url": "/mutace"
-                },
-                {
-                  "title": "Struktura",
-                  "url": "/multi"
+                  "title": "Hlavička",
+                  "url": "/hlavicka"
                 }
               ]
             }
           ]
-        },
-        {
-          "title": "Zakázky",
-          "url": "#",
-          "icon": {
-            "url": "images/icons/bullets.svg",
-            "alt": ""
-          }
         },
         {
           "title": "Globální sady",
@@ -53,8 +41,8 @@
               "url": "",
               "links": [
                 {
-                  "title": "Kontakty",
-                  "url": "/kontakty"
+                  "title": "Obecné",
+                  "url": "/obecne"
                 }
               ]
             }
