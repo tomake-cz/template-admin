@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
   link: {
-    id: number;
     title: string;
     url: string;
     icon: {

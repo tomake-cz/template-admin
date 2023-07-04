@@ -44,14 +44,14 @@ const deleteCachedInput = () => {
 onMounted(() => {
   if (props.value) {
     value.value = props.value;
-    setInput({
-      name: props.id,
-      value: props.value,
-      required: props.required,
-      type: props.type,
-      schema: props.schema,
-    });
   }
+  setInput({
+    name: props.id,
+    value: props.value,
+    required: props.required,
+    type: props.type,
+    schema: props.schema,
+  });
 
   if (hasCachedInput(props.id)) {
     value.value = getCachedInput(props.id)?.value as T;

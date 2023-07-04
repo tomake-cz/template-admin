@@ -16,14 +16,21 @@ const onClick = (close: () => void, revision: Revision) => {
 
 <template>
   <AppDropdown :pos="{ top: 52, right: 0 }">
-    <template #button>
-      <div class="flex items-center rounded-full bg-gray-dark px-6 py-3">
+    <template #button="{ open }">
+      <div
+        class="flex items-center whitespace-nowrap rounded-full bg-gray-dark px-6 py-3"
+      >
         <AppIcon :icon="icon" size="lg" />
         <span class="ml-3 mr-6 flex gap-2">
           <span class="text-xs">{{ text }}</span>
           <span class="text-xs">{{ activeRevision?.dateCreated }}</span>
         </span>
-        <AppIcon :icon="dropdownIcon" size="lg" class="icon-site-2" />
+        <AppIcon
+          :icon="dropdownIcon"
+          size="lg"
+          :class="{ 'rotate-45': open }"
+          class="icon-site-2 transition-all"
+        />
       </div>
     </template>
     <template #popup="{ close }">

@@ -10,7 +10,7 @@ const site = route.path.split('/')[1];
       :class="[isNavFixed ? 'fixed top-12' : 'absolute']"
       class="h-full w-[inherit] bg-gray-dark px-6 py-12"
     >
-      <template v-for="group in groups(site)" :key="group.id + group.title">
+      <template v-for="(group, i) in groups(site)" :key="i">
         <InnerNavGroup :group="group" />
       </template>
     </div>
