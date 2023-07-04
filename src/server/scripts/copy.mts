@@ -8,25 +8,22 @@ const INDEX_ROUTER_PATH = './src/server/trpc/routers/index.ts';
 
 const FILES = [
   '.husky/pre-commit',
-  'src/assets/css',
-  'src/assets/fonts',
-  'src/assets/images',
-  'src/assets/app.json',
+  'src/assets',
+  '!src/assets/client.json',
   'src/components',
   'src/composables',
   'src/layouts',
-  'src/middlewares',
+  // 'src/middlewares',
   'src/pages/assets',
   'src/pages/index.vue',
   'src/pages/webove-zaznamy/index.vue',
   'src/plugins',
   'src/public',
   'src/server/api',
-  // 'src/server/middleware',
+  'src/server/middleware',
   'src/server/prisma',
-  'src/server/scripts/import.mts',
-  'src/server/scripts/run.mts',
-  'src/server/scripts/types.mts',
+  'src/server/scripts',
+  '!src/server/scripts/copy.mts',
   'src/server/trpc/routers/index.ts',
   'src/server/trpc/routers/asset.ts',
   'src/server/trpc/routers/view.ts',
@@ -35,6 +32,7 @@ const FILES = [
   'src/server/utils',
   'src/stores',
   'src/types',
+  '!src/types/server.d.ts',
   'src/utils',
   'src/app.vue',
   'src/env.ts',
@@ -46,7 +44,32 @@ const FILES = [
   'tsconfig.json',
 ];
 
-const promises = FILES.map((file) => {
+FILES.sort((a, b) => a.localeCompare(b));
+const admin = FILES.filter((file) => !file.startsWith('!'));
+const local = FILES.filter((file) => file.startsWith('!'));
+
+type MyFile = {
+  path: string;
+  bytes: Buffer;
+};
+const keptFiles: MyFile[] = [];
+
+let promises = local.map((file) => {
+  return new Promise((resolve, reject) => {
+    readFile(file.slice(1), (err, data) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      keptFiles.push({ path: file.slice(1), bytes: data });
+      resolve(null);
+    });
+  });
+});
+await Promise.all(promises);
+
+promises = admin.map((file) => {
   return new Promise((resolve, reject) => {
     try {
       rmSync(file, { recursive: true, force: true });
@@ -67,6 +90,20 @@ const promises = FILES.map((file) => {
       }
 
       reject(err);
+    });
+  });
+});
+await Promise.all(promises);
+
+promises = keptFiles.map((file) => {
+  return new Promise((resolve, reject) => {
+    writeFile(file.path, file.bytes, (err) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      resolve(null);
     });
   });
 });
