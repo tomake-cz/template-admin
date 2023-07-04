@@ -6,11 +6,9 @@
   "title": "EMURY s.r.o.",
   "nav": [
     {
-      "id": 0,
       "title": "",
       "links": [
         {
-          "id": 0,
           "title": "Webové záznamy",
           "url": "/webove-zaznamy",
           "icon": {
@@ -19,17 +17,14 @@
           },
           "groups": [
             {
-              "id": 0,
               "title": "Hlavní strana",
               "url": "/hlavni-strana",
               "links": [
                 {
-                  "id": 0,
                   "title": "Mutace",
                   "url": "/mutace"
                 },
                 {
-                  "id": 1,
                   "title": "Struktura",
                   "url": "/multi"
                 }
@@ -38,7 +33,6 @@
           ]
         },
         {
-          "id": 1,
           "title": "Zakázky",
           "url": "#",
           "icon": {
@@ -47,7 +41,6 @@
           }
         },
         {
-          "id": 2,
           "title": "Globální sady",
           "url": "/globalni-sady",
           "icon": {
@@ -56,12 +49,10 @@
           },
           "groups": [
             {
-              "id": 0,
               "title": "Globální sady",
               "url": "",
               "links": [
                 {
-                  "id": 0,
                   "title": "Kontakty",
                   "url": "/kontakty"
                 }
@@ -70,7 +61,6 @@
           ]
         },
         {
-          "id": 3,
           "title": "Soubory",
           "url": "/assets",
           "icon": {
@@ -81,11 +71,9 @@
       ]
     },
     {
-      "id": 1,
       "title": "SHORTCUTS",
       "links": [
         {
-          "id": 0,
           "title": "Koš",
           "url": "#",
           "icon": {
@@ -94,7 +82,6 @@
           }
         },
         {
-          "id": 1,
           "title": "Nápověda",
           "url": "#",
           "icon": {
