@@ -21,6 +21,7 @@
     "trpc-types": "npx tsc --declaration --strict  --pretty ./src/server/trpc/routers/index.ts --outFile ./src/types/server.js --emitDeclarationOnly --lib esnext,dom",
     "import-types": "ts-node-esm ./src/server/scripts/import.mts",
     "types": "yarn import-types && yarn trpc-types && yarn prisma-types && yarn import-types",
+    "admin-copy-files": "ts-node-esm ./src/server/scripts/copy-files.mts",
     "admin-copy": "ts-node-esm ./src/server/scripts/copy.mts",
     "admin-upgrade": "yarn upgrade @patrik_hajek/admin@latest --ignore-scripts && yarn admin-copy"
   },
