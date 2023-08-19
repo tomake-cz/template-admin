@@ -34,6 +34,7 @@ const admin = FILES.filter(
 const local = FILES.filter(
   (file) => file.startsWith('!') && !file.startsWith('//'),
 );
+const unwanted: string[] = [];
 
 type MyFile = {
   path: string;
@@ -51,7 +52,8 @@ let promises = local.map((file) => {
       }
 
       if (err.code === 'ENOENT') {
-        console.log(`${file} does not exist`);
+        console.log(`${file} does not exist. Added it to unwanted files`);
+        unwanted.push(file);
         resolve(null);
         return;
       }
@@ -98,6 +100,19 @@ promises = keptFiles.map((file) => {
 
       resolve(null);
     });
+  });
+});
+await Promise.all(promises);
+
+promises = unwanted.map((file) => {
+  return new Promise((resolve) => {
+    try {
+      rmSync(file.slice(1), { recursive: true, force: true });
+    } catch (err) {
+      console.error('Unwanted:', err);
+    }
+
+    resolve(null);
   });
 });
 await Promise.all(promises);
